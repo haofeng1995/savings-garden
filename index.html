@@ -281,15 +281,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 // Supabase 初始化
 const SUPABASE_URL='https://pujiwylhqbrtwcbtyvee.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_xBLJG1_en-A_7KokEr5WAg_uX-Aq0lB';
-let supabase;
-(function initSB(){
-  if(window.supabase){
-    const {createClient}=window.supabase;
-    supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-  }else{
-    setTimeout(initSB,100);
-  }
-})();
+var supabase=null;
 
 var CATS=[
   {id:'food',name:'餐費',emoji:'🍜',color:'#f97316'},
@@ -569,38 +561,50 @@ function resetData(){
 }
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2400);}
 
-// 初始化 - 檢查登入狀態
-(async function(){
+// 初始化
+async function initApp(){
   var n=new Date(),m=n.getMonth()+1;
   curMonth=n.getFullYear()+'-'+(m<10?'0'+m:''+m);
 
-  // 檢查 Supabase 登入狀態
-  const {data:{session},error}=await supabase.auth.getSession();
-  if(session && session.user){
-    curUser=session.user;
-    await loadUserData();
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').classList.add('active');
-    showToast('歡迎回來 🌱');
-  }else{
-    document.getElementById('login-hint').textContent='第一次登入會建立帳號';
+  // 初始化 Supabase
+  if(!supabase && window.supabase){
+    const {createClient}=window.supabase;
+    supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
   }
 
-  // 監聽登入狀態變化
-  supabase.auth.onAuthStateChange(async (event,session)=>{
-    if(event==='SIGNED_IN' && session.user){
+  if(!supabase){setTimeout(initApp,100);return;}
+
+  try{
+    // 檢查登入狀態
+    const {data:{session}}=await supabase.auth.getSession();
+    if(session && session.user){
       curUser=session.user;
       await loadUserData();
       document.getElementById('login-screen').style.display='none';
       document.getElementById('app').classList.add('active');
-      showToast('✅ 登入成功！');
-    }else if(event==='SIGNED_OUT'){
-      curUser=null;
-      document.getElementById('login-screen').style.display='flex';
-      document.getElementById('app').classList.remove('active');
+      showToast('歡迎回來 🌱');
+    }else{
+      document.getElementById('login-hint').textContent='第一次登入會建立帳號';
     }
-  });
-})();
+
+    // 監聽登入狀態
+    supabase.auth.onAuthStateChange(async (event,session)=>{
+      if(event==='SIGNED_IN' && session.user){
+        curUser=session.user;
+        await loadUserData();
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').classList.add('active');
+        showToast('✅ 登入成功！');
+      }else if(event==='SIGNED_OUT'){
+        curUser=null;
+        document.getElementById('login-screen').style.display='flex';
+        document.getElementById('app').classList.remove('active');
+      }
+    });
+  }catch(err){console.error('Init error:',err);}
+}
+
+document.addEventListener('DOMContentLoaded',initApp);
 </script>
 </body>
 </html>
