@@ -66,9 +66,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .month-label{font-size:13px;font-weight:700;min-width:80px;text-align:center;}
 
 .budget-card{margin:0 16px 14px;background:var(--surface2);border-radius:24px;padding:18px 20px;border:0.5px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.04);}
-.bcard-label{font-size:11px;font-weight:800;color:var(--subtle);text-transform:uppercase;margin-bottom:6px;}
-.bcard-amount{font-size:38px;font-weight:900;color:#fff;line-height:1;margin-bottom:4px;}
-.bcard-sub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:14px;}
+.bcard-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.bcard-amount{font-size:38px;font-weight:900;color:var(--text);line-height:1;margin-bottom:4px;}
+.bcard-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+html.dark-mode .bcard-label{color:var(--muted);}
+html.dark-mode .bcard-amount{color:#fff;}
+html.dark-mode .bcard-sub{color:rgba(255,255,255,0.5);}
 .prog-track{background:rgba(255,255,255,0.1);border-radius:6px;height:6px;margin-bottom:8px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:6px;transition:width .6s;}
 .prog-labels{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.35);}
