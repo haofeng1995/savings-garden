@@ -152,11 +152,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div id="login-screen">
   <div class="login-logo">🌳</div>
   <div class="login-title">省錢花園</div>
-  <div class="login-sub">用 Gmail 登入<br>資料存在雲端</div>
+  <div class="login-sub">登入帳號<br>資料存在雲端</div>
   <div class="login-card">
-    <button class="login-btn" onclick="loginWithGoogle()">🔐 用 Google 登入</button>
+    <label class="login-label">Email</label>
+    <input type="email" class="login-input" id="login-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doLogin()">
+    <label class="login-label">密碼</label>
+    <input type="password" class="login-input" id="login-password" placeholder="至少6碼" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">進入花園 🌱</button>
     <div class="login-msg" id="login-msg"></div>
-    <div class="login-hint" id="login-hint"></div>
+    <div class="login-hint">第一次登入會自動建立帳號</div>
   </div>
 </div>
 
@@ -332,9 +336,18 @@ function monthSpent(ym){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)s+=
 function catSpent(ym,cid){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)if(mt[i].cat===cid)s+=Number(mt[i].amount);return s;}
 function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].cat===cid)s+=Number(txns[i].amount);return s;}
 
-// AUTH - Google OAuth
-async function loginWithGoogle(){
+// AUTH - Email/Password
+async function doLogin(){
   var msg=document.getElementById('login-msg');
+  var email=document.getElementById('login-email').value.trim();
+  var password=document.getElementById('login-password').value;
+  msg.textContent='';
+
+  if(!email||!password){
+    msg.textContent='請輸入 email 和密碼';
+    return;
+  }
+
   msg.textContent='登入中...';
 
   // 等待 SDK 加載
@@ -355,13 +368,23 @@ async function loginWithGoogle(){
   }
 
   try{
-    const {data,error}=await supabase.auth.signInWithOAuth({
-      provider:'google',
-      options:{redirectTo:window.location.origin}
-    });
-    if(error) throw error;
+    // 先試登入
+    var {data,error}=await supabase.auth.signInWithPassword({email,password});
+
+    if(error && error.message.includes('Invalid login')){
+      // 新用戶，建立帳號
+      var {data:signUpData,error:signUpError}=await supabase.auth.signUp({email,password});
+      if(signUpError) throw signUpError;
+      // 登入
+      var {data:loginData,error:loginError}=await supabase.auth.signInWithPassword({email,password});
+      if(loginError) throw loginError;
+    }else if(error){
+      throw error;
+    }
+
+    msg.textContent='✅ 登入成功！';
   }catch(err){
-    msg.textContent='登入失敗: '+err.message;
+    msg.textContent='❌ '+err.message;
   }
 }
 
