@@ -336,25 +336,31 @@ function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].c
 async function loginWithGoogle(){
   var msg=document.getElementById('login-msg');
   msg.textContent='登入中...';
+  console.log('loginWithGoogle called, supabase:', !!supabase, 'window.supabase:', !!window.supabase);
 
   // 確保 supabase 已初始化
   if(!supabase && window.supabase){
     const {createClient}=window.supabase;
     supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+    console.log('Supabase initialized:', !!supabase);
   }
 
   if(!supabase){
     msg.textContent='初始化失敗，請重新整理頁面';
+    console.error('Supabase initialization failed');
     return;
   }
 
   try{
+    console.log('Starting OAuth flow');
     const {data,error}=await supabase.auth.signInWithOAuth({
       provider:'google',
       options:{redirectTo:window.location.origin}
     });
+    console.log('OAuth response:', {data,error});
     if(error) throw error;
   }catch(err){
+    console.error('OAuth error:', err);
     msg.textContent='登入失敗: '+err.message;
   }
 }
