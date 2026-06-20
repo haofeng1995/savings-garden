@@ -749,6 +749,16 @@ async function loadUserData(){
         await sbClient.from('transactions').upsert(toSync.map(function(t){return Object.assign({},t,{user_id:curUser.id});}));
       }
     }
+    // 自動備份：同步完整交易列表和設定
+    setTimeout(async function(){
+      try{
+        var uid=curUser.id;
+        var txnPayload=txns.map(function(t){return Object.assign({},t,{user_id:uid});});
+        await sbClient.from('transactions').upsert(txnPayload,{onConflict:'id'});
+        var settingsPayload={user_id:uid,total_budget:settings.totalBudget,cat_budgets:settings.catBudgets,cats:settings.cats||null,presets:settings.presets||null,carry_over:settings.carryOver||0,last_settled_week:settings.lastSettledWeek||null,recurring_txns:settings.recurringTxns||null,monthly_goal:settings.monthlyGoal||0,updated_at:new Date().toISOString()};
+        await sbClient.from('user_settings').upsert(settingsPayload,{onConflict:'user_id'});
+      }catch(e){console.log('auto-backup silent');}
+    },1000);
   }catch(err){console.error(err);}
 }
 
