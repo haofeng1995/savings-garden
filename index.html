@@ -281,8 +281,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 // Supabase 初始化
 const SUPABASE_URL='https://pujiwylhqbrtwcbtyvee.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_xBLJG1_en-A_7KokEr5WAg_uX-Aq0lB';
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabase;
+(function initSB(){
+  if(window.supabase){
+    const {createClient}=window.supabase;
+    supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  }else{
+    setTimeout(initSB,100);
+  }
+})();
 
 var CATS=[
   {id:'food',name:'餐費',emoji:'🍜',color:'#f97316'},
