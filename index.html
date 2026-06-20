@@ -225,7 +225,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="sec-title">預算</div>
       <div class="settings-card">
         <div class="settings-row">
-          <div><div class="settings-label">💰 每月預算</div></div>
+          <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">account_balance_wallet</span>每月預算</div></div>
           <input type="number" class="settings-input" id="setting-total" placeholder="20000" oninput="saveAll()">
         </div>
       </div>
@@ -234,11 +234,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="sec-title">資料</div>
       <div class="settings-card">
         <div class="settings-row" onclick="exportData()" style="cursor:pointer">
-          <div><div class="settings-label">📥 匯出備份</div></div>
+          <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">download</span>匯出備份</div></div>
           <span style="color:var(--subtle)">›</span>
         </div>
         <div class="settings-row" onclick="document.getElementById('import-file').click()" style="cursor:pointer">
-          <div><div class="settings-label">📤 匯入資料</div></div>
+          <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">upload</span>匯入資料</div></div>
           <span style="color:var(--subtle)">›</span>
         </div>
         <div class="settings-row" onclick="doLogout()" style="cursor:pointer">
@@ -285,14 +285,14 @@ const SUPABASE_ANON_KEY='sb_publishable_xBLJG1_en-A_7KokEr5WAg_uX-Aq0lB';
 var supabase=null;
 
 var CATS=[
-  {id:'food',name:'餐費',emoji:'🍜',color:'#f97316'},
-  {id:'transit',name:'交通',emoji:'🚇',color:'#38bdf8'},
-  {id:'shop',name:'購物',emoji:'🛒',color:'#ec4899'},
-  {id:'fun',name:'娛樂',emoji:'🎮',color:'#8b5cf6'},
-  {id:'health',name:'醫療',emoji:'💊',color:'#10b981'},
-  {id:'other',name:'其他',emoji:'📦',color:'#94a3b8'}
+  {id:'food',name:'餐費',icon:'restaurant',color:'#f97316'},
+  {id:'transit',name:'交通',icon:'directions_transit',color:'#38bdf8'},
+  {id:'shop',name:'購物',icon:'shopping_cart',color:'#ec4899'},
+  {id:'fun',name:'娛樂',icon:'sports_esports',color:'#8b5cf6'},
+  {id:'health',name:'醫療',icon:'health_and_safety',color:'#10b981'},
+  {id:'other',name:'其他',icon:'category',color:'#94a3b8'}
 ];
-var CAT_MAP={};for(var i=0;i<CATS.length;i++)CAT_MAP[CATS[i].id]=CATS[i];
+var CAT_MAP={};for(var i=0;i<CATS.length;i++){CATS[i].emoji=CATS[i].icon;CAT_MAP[CATS[i].id]=CATS[i];}
 
 var GROWTH=[
   {name:'種子',emoji:'🌰'},
@@ -438,7 +438,7 @@ function renderHome(){
   for(var i=0;i<Math.min(30,mt.length);i++){
     var t=mt[i],cat=CAT_MAP[t.cat]||CATS[5];
     html+='<div class="txn-item" onclick="openEditModal(\''+t.id+'\')">';
-    html+='<div class="txn-icon" style="background:'+cat.color+'22">'+cat.emoji+'</div>';
+    html+='<div class="txn-icon" style="background:'+cat.color+'22"><span class="material-icons" style="font-size:24px;line-height:1;">'+cat.icon+'</span></div>';
     html+='<div class="txn-info"><div class="txn-name">'+(t.note||cat.name)+'</div>';
     html+='<div class="txn-detail">'+cat.name+' &middot; '+fmtDate(t.date)+'</div></div>';
     html+='<div class="txn-amount">-'+fmt(t.amount)+'</div></div>';
@@ -455,10 +455,10 @@ function renderAnalysis(){
   document.getElementById('stat-total').textContent=fmt(total);
   document.getElementById('stat-count').textContent=all.length;
   document.getElementById('stat-avg').textContent=fmt(dp>0?total/dp:0);
-  var catData=[];for(var ci=0;ci<CATS.length;ci++){var cs=catSpent(ym,CATS[ci].id);if(cs>0)catData.push({id:CATS[ci].id,name:CATS[ci].name,emoji:CATS[ci].emoji,color:CATS[ci].color,total:cs});}
+  var catData=[];for(var ci=0;ci<CATS.length;ci++){var cs=catSpent(ym,CATS[ci].id);if(cs>0)catData.push({id:CATS[ci].id,name:CATS[ci].name,icon:CATS[ci].icon,color:CATS[ci].color,total:cs});}
   catData.sort(function(a,b){return b.total-a.total;});
   var bd=document.getElementById('cat-breakdown');
-  if(!catData.length){bd.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);">本月尚無記錄</div>';} else{var mx=catData[0].total,bhtml='';for(var di=0;di<catData.length;di++){var dc=catData[di],w=mx>0?Math.round(dc.total/mx*100):0;bhtml+='<div class="breakdown-row"><div class="br-emoji">'+dc.emoji+'</div><div class="br-info"><div class="br-top">'+dc.name+'<span style="color:var(--muted);font-weight:500;font-size:12px;">NT$ '+fmt(dc.total)+'</span></div><div class="bar-track"><div class="bar-fill" style="width:'+w+'%;background:'+dc.color+'"></div></div></div></div>';}bd.innerHTML=bhtml;}
+  if(!catData.length){bd.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted);">本月尚無記錄</div>';} else{var mx=catData[0].total,bhtml='';for(var di=0;di<catData.length;di++){var dc=catData[di],w=mx>0?Math.round(dc.total/mx*100):0;bhtml+='<div class="breakdown-row"><div class="br-emoji"><span class="material-icons" style="font-size:20px;">'+dc.icon+'</span></div><div class="br-info"><div class="br-top">'+dc.name+'<span style="color:var(--muted);font-weight:500;font-size:12px;">NT$ '+fmt(dc.total)+'</span></div><div class="bar-track"><div class="bar-fill" style="width:'+w+'%;background:'+dc.color+'"></div></div></div></div>';}bd.innerHTML=bhtml;}
   if(donutChart){donutChart.destroy();donutChart=null;}
   var dCtx=document.getElementById('donut-chart').getContext('2d');
   if(catData.length){var dl=[],dd=[],dc2=[];for(var dli=0;dli<catData.length;dli++){dl.push(catData[dli].name);dd.push(catData[dli].total);dc2.push(catData[dli].color);}donutChart=new Chart(dCtx,{type:'doughnut',data:{labels:dl,datasets:[{data:dd,backgroundColor:dc2,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{color:'#94a3b8',font:{family:'Nunito',size:11}}}}}});}
@@ -476,14 +476,14 @@ function renderGarden(){
     var cat=CATS[ci],total=allTimeCatSpent(cat.id),xp=getXPInfo(total),stage=xp.stage,g=GROWTH[stage];
     gHtml+='<div class="plant-pot-cell"><div class="plant-visual">'+g.emoji+'</div><div class="pot-rim"></div><div class="pot-body"></div><div class="plant-name-chip">'+cat.name+'</div><div class="plant-spent-lbl">'+fmt(total)+'</div></div>';
     var nextInfo=stage<GROWTH.length-1?('還差 NT$ '+fmt(XP[stage+1]-total)):'滿級！';
-    lHtml+='<div class="legend-card"><div class="legend-head"><div class="legend-emoji">'+cat.emoji+'</div><div><div class="legend-name">'+cat.name+'樹</div><div class="legend-cat">第'+(stage+1)+'/20 &middot; '+g.name+'</div></div></div><div style="font-size:10px;color:var(--subtle);">'+nextInfo+'</div></div>';
+    lHtml+='<div class="legend-card"><div class="legend-head"><div class="legend-emoji"><span class="material-icons">'+cat.icon+'</span></div><div><div class="legend-name">'+cat.name+'樹</div><div class="legend-cat">第'+(stage+1)+'/20 &middot; '+g.name+'</div></div></div><div style="font-size:10px;color:var(--subtle);">'+nextInfo+'</div></div>';
   }
   pg.innerHTML=gHtml;lg.innerHTML=lHtml;
 }
 
 function renderSettings(){
   document.getElementById('setting-total').value=settings.totalBudget||'';
-  var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<div class="settings-row"><div><div class="settings-label">'+c.emoji+' '+c.name+'</div></div><input type="number" class="settings-input" data-cat="'+c.id+'" value="'+(settings.catBudgets[c.id]||'')+'" placeholder="0" oninput="saveBudget()"></div>';}
+  var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<div class="settings-row"><div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">'+c.icon+'</span>'+c.name+'</div></div><input type="number" class="settings-input" data-cat="'+c.id+'" value="'+(settings.catBudgets[c.id]||'')+'" placeholder="0" oninput="saveBudget()"></div>';}
   document.getElementById('cat-budget-list').innerHTML=html;
 }
 function saveBudget(){
@@ -494,7 +494,7 @@ function saveBudget(){
   showToast('✅ 預算已保存');
 }
 
-function buildCatGrid(sel){var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<button class="cat-btn'+(c.id===sel?' selected':'')+'" data-catid="'+c.id+'" onclick="selectCat(this)"><span class="cat-e">'+c.emoji+'</span><span class="cat-n">'+c.name+'</span></button>';}document.getElementById('cat-grid').innerHTML=html;}
+function buildCatGrid(sel){var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<button class="cat-btn'+(c.id===sel?' selected':'')+'" data-catid="'+c.id+'" onclick="selectCat(this)"><span class="cat-e"><span class="material-icons">'+c.icon+'</span></span><span class="cat-n">'+c.name+'</span></button>';}document.getElementById('cat-grid').innerHTML=html;}
 function selectCat(btn){var bs=document.querySelectorAll('.cat-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('selected');btn.classList.add('selected');}
 function openModal(){
   editId=null;
