@@ -361,7 +361,7 @@ async function doLogin(){
     var data=await res.json();
 
     if(!res.ok){
-      if(data.message.includes('Invalid login credentials')){
+      if(data.message && data.message.includes('Invalid login credentials')){
         // 新用戶，建立帳號
         var signUpUrl=SUPABASE_URL+'/auth/v1/signup';
         var signUpRes=await fetch(signUpUrl,{
