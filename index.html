@@ -32,7 +32,8 @@ html.dark-mode{
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow:hidden;}
-.container{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;position:relative;}
+.container{display:flex;flex-direction:column;height:100dvh;max-width:900px;margin:0 auto;position:relative;}
+@media(max-width:600px){.container{max-width:430px;}}
 
 #login-screen{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;z-index:100;}
 .login-logo{font-size:72px;margin-bottom:16px;animation:float 3s ease-in-out infinite;}
@@ -116,6 +117,8 @@ html.dark-mode .bcard-sub{color:rgba(255,255,255,0.5);}
 .save-btn{width:100%;background:var(--purple);border:none;border-radius:14px;padding:15px;font-family:var(--font);font-size:15px;font-weight:800;color:#fff;cursor:pointer;}
 .save-btn:active{opacity:.85;}
 .delete-btn{width:100%;background:rgba(248,113,113,0.12);border:0.5px solid rgba(248,113,113,0.25);border-radius:14px;padding:13px;font-family:var(--font);font-size:14px;font-weight:700;color:var(--red);cursor:pointer;margin-top:10px;}
+.quick-tag{background:var(--surface2);border:0.5px solid var(--border2);border-radius:12px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;color:var(--text);}
+.quick-tag:active{background:var(--purple);color:#fff;}
 
 .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
 .stat-card{background:var(--surface);border-radius:14px;padding:14px 12px;border:0.5px solid var(--border);}
@@ -216,7 +219,7 @@ html.dark-mode .bcard-sub{color:rgba(255,255,255,0.5);}
 <div id="login-screen">
   <div class="login-logo">🌳</div>
   <div class="login-title">省錢花園</div>
-  <div class="login-sub">資料存在雲端，各自帳號各自記錄</div>
+  <div class="login-sub">用個人記帳養一座花園<br>消費越少，花園越茂盛<span style="display:block;font-size:12px;margin-top:12px;color:var(--muted);">資料存在雲端 • v1.2.0</span></div>
   <div class="login-card">
     <button onclick="doGoogleAuth()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:none;border-radius:14px;padding:14px;font-family:var(--font);font-size:15px;font-weight:800;color:#1f2937;cursor:pointer;margin-bottom:16px;">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
@@ -374,6 +377,7 @@ html.dark-mode .bcard-sub{color:rgba(255,255,255,0.5);}
       <div class="preset-scroll" id="preset-chips"></div>
     </div>
     <div class="input-group"><label class="input-label">備註</label><input type="text" class="text-input" id="note-input" placeholder="例：家樂福"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;" id="quick-tags"></div>
     <div class="input-group"><label class="input-label">日期</label><input type="date" class="text-input" id="date-input"></div>
     <div id="modal-budget-hint" style="text-align:center;font-size:12px;color:var(--subtle);padding:6px 0 2px;min-height:20px;"></div>
     <button class="save-btn" id="save-btn" onclick="saveTxn()">✓ 儲存</button>
@@ -885,7 +889,7 @@ function saveBudget(){
 }
 
 function buildCatGrid(sel){var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<button class="cat-btn'+(c.id===sel?' selected':'')+'" data-catid="'+c.id+'" onclick="selectCat(this)"><span class="cat-e"><span class="material-icons">'+c.icon+'</span></span><span class="cat-n">'+c.name+'</span></button>';}document.getElementById('cat-grid').innerHTML=html;}
-function selectCat(btn){var bs=document.querySelectorAll('.cat-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('selected');btn.classList.add('selected');renderPresets(btn.dataset.catid);updateModalHint(btn.dataset.catid);}
+function selectCat(btn){var bs=document.querySelectorAll('.cat-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('selected');btn.classList.add('selected');renderPresets(btn.dataset.catid);updateModalHint(btn.dataset.catid);renderQuickTags(btn.dataset.catid);}
 function updateModalHint(catId){
   var hint=document.getElementById('modal-budget-hint');if(!hint)return;
   var now=new Date(),ym=curMonth,yp=Number(ym.split('-')[0]),mp=Number(ym.split('-')[1]);
@@ -942,13 +946,19 @@ function deletePreset(catId,idx){
   saveAll();renderPresets(catId);
 }
 var confirmPending=false;
+var QUICK_TAGS={food:['咖啡','便當','麥當勞','全聯','自助餐','超商'],shop:['超市','水電費','加油','藥局','衣服'],transit:['停車','加油','公車','計程車'],fun:['電影','KTV','聚餐','買書'],health:['掛號','藥局','健身'],other:['雜支','禮物','維修']};
+function renderQuickTags(catId){
+  var tags=QUICK_TAGS[catId]||[];var html='';
+  for(var ti=0;ti<tags.length;ti++){html+='<div class="quick-tag" onclick="document.getElementById(\'note-input\').value=\''+tags[ti]+'\';document.getElementById(\'note-input\').focus();">'+tags[ti]+'</div>';}
+  document.getElementById('quick-tags').innerHTML=html;
+}
 function openModal(){
   editId=null;confirmPending=false;
   document.getElementById('modal-title').textContent='新增記錄';
   document.getElementById('amount-input').value='';document.getElementById('note-input').value='';
   document.getElementById('delete-btn').style.display='none';
   document.getElementById('date-input').value=new Date().toISOString().split('T')[0];
-  buildCatGrid('food');renderPresets('food');updateModalHint('food');
+  buildCatGrid('food');renderPresets('food');updateModalHint('food');renderQuickTags('food');
   document.getElementById('modal').classList.add('open');
   setTimeout(function(){document.getElementById('amount-input').focus();},300);
 }
