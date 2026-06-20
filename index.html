@@ -351,6 +351,7 @@ async function doLogin(){
   msg.textContent='登入中...';
 
   try{
+    console.log('Attempting login...');
     // 先試登入
     var url=SUPABASE_URL+'/auth/v1/token?grant_type=password';
     var res=await fetch(url,{
@@ -359,9 +360,12 @@ async function doLogin(){
       body:JSON.stringify({email,password})
     });
     var data=await res.json();
+    console.log('Login response:', res.status, data);
 
     if(!res.ok){
-      if(data.message && data.message.includes('Invalid login credentials')){
+      var errMsg=data.message||data.error||'Unknown error';
+      if(errMsg.includes('Invalid login') || errMsg.includes('User not found')){
+        console.log('User not found, creating account...');
         // 新用戶，建立帳號
         var signUpUrl=SUPABASE_URL+'/auth/v1/signup';
         var signUpRes=await fetch(signUpUrl,{
@@ -369,7 +373,9 @@ async function doLogin(){
           headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
           body:JSON.stringify({email,password})
         });
-        if(!signUpRes.ok) throw new Error('建立帳號失敗');
+        var signUpData=await signUpRes.json();
+        console.log('Signup response:', signUpRes.status, signUpData);
+        if(!signUpRes.ok) throw new Error('建立帳號失敗: '+signUpData.message);
 
         // 再登入一次
         var retryRes=await fetch(url,{
@@ -377,10 +383,11 @@ async function doLogin(){
           headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
           body:JSON.stringify({email,password})
         });
-        if(!retryRes.ok) throw new Error('登入失敗');
-        data=await retryRes.json();
+        var retryData=await retryRes.json();
+        if(!retryRes.ok) throw new Error('登入失敗: '+retryData.message);
+        data=retryData;
       }else{
-        throw new Error(data.message||'登入失敗');
+        throw new Error(errMsg);
       }
     }
 
@@ -396,6 +403,7 @@ async function doLogin(){
       renderHome();
     },500);
   }catch(err){
+    console.error('Auth error:', err);
     msg.textContent='❌ '+err.message;
   }
 }
