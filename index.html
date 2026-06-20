@@ -336,6 +336,18 @@ function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].c
 async function loginWithGoogle(){
   var msg=document.getElementById('login-msg');
   msg.textContent='登入中...';
+
+  // 確保 supabase 已初始化
+  if(!supabase && window.supabase){
+    const {createClient}=window.supabase;
+    supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  }
+
+  if(!supabase){
+    msg.textContent='初始化失敗，請重新整理頁面';
+    return;
+  }
+
   try{
     const {data,error}=await supabase.auth.signInWithOAuth({
       provider:'google',
