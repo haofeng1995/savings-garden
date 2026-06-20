@@ -193,7 +193,8 @@ html.dark-mode .plant-pot-cell:active{background:rgba(255,255,255,0.05);}
 .preset-add{display:inline-flex;align-items:center;gap:4px;background:none;border:0.5px dashed var(--border2);border-radius:20px;padding:5px 12px;font-family:var(--font);font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
 .preset-add:active{opacity:.6;}
 
-.week-card{margin:0 16px 14px;background:var(--surface2);border-radius:20px;padding:16px 18px;border:0.5px solid rgba(167,139,250,0.15);}
+.week-card{margin:0 16px 14px;background:var(--surface2);border-radius:20px;padding:16px 18px;border:0.5px solid var(--border2);box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 .week-card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
 .week-card-title{font-size:11px;font-weight:800;color:var(--subtle);text-transform:uppercase;letter-spacing:.08em;}
 .week-card-days{font-size:11px;color:var(--muted);}
@@ -353,6 +354,15 @@ html.dark-mode .plant-pot-cell:active{background:rgba(255,255,255,0.05);}
           <span style="color:var(--subtle)">›</span>
         </div>
       </div>
+      <div class="settings-card">
+        <div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">常用交易</div>
+        <div id="recurring-txns-list" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;">
+          <input type="text" class="text-input" id="recurring-note" placeholder="交易名稱" style="flex:1;">
+          <input type="number" class="text-input" id="recurring-amount" placeholder="金額" style="width:80px;">
+          <button onclick="addRecurringTxn()" style="background:var(--mint);border:none;border-radius:10px;padding:8px 12px;color:#fff;font-weight:600;cursor:pointer;font-size:12px;">新增</button>
+        </div>
+      </div>
       <button class="add-cat-btn" onclick="forceCloudSync()" style="color:var(--mint);border-color:var(--mint);margin-bottom:8px;"><span class="material-icons" style="font-size:20px;">cloud_upload</span>強制同步到雲端</button>
       <div id="sync-status" style="font-size:11px;color:var(--subtle);text-align:center;margin-bottom:8px;"></div>
       <button class="danger-btn" onclick="resetData()"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:18px;">delete</span>清除所有資料</button>
@@ -382,6 +392,7 @@ html.dark-mode .plant-pot-cell:active{background:rgba(255,255,255,0.05);}
     </div>
     <div class="input-group"><label class="input-label">備註</label><input type="text" class="text-input" id="note-input" placeholder="例：家樂福"></div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;" id="quick-tags"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding:0 0 6px;" id="recurring-chips"></div>
     <div class="input-group"><label class="input-label">日期</label><input type="date" class="text-input" id="date-input"></div>
     <div id="modal-budget-hint" style="text-align:center;font-size:12px;color:var(--subtle);padding:6px 0 2px;min-height:20px;"></div>
     <button class="save-btn" id="save-btn" onclick="saveTxn()">✓ 儲存</button>
@@ -467,7 +478,7 @@ var XP=[0,200,500,1000,2000,3500,5500,8000,11000,15000,20000,27000,35000,45000,5
 function getStage(total){var s=0;for(var i=GROWTH.length-1;i>=0;i--){if(total>=XP[i]){s=i;break;}}return s;}
 function getXPInfo(total){var s=getStage(total);if(s>=GROWTH.length-1)return {pct:100,stage:s};var cur=XP[s],next=XP[s+1];return {pct:Math.round((total-cur)/(next-cur)*100),stage:s};}
 
-var txns=[],settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000},cats:null,presets:{},carryOver:0,lastSettledWeek:null,sheetsUrl:'https://script.google.com/macros/s/AKfycbywXZhMV1ePZWUn_1R_QVQVptJGpWlT9n4AJYZB1lnyhWvjUz9RUazETGx0UCGg2FjPyQ/exec'};
+var txns=[],settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000},cats:null,presets:{},carryOver:0,lastSettledWeek:null,recurringTxns:[],sheetsUrl:'https://script.google.com/macros/s/AKfycbywXZhMV1ePZWUn_1R_QVQVptJGpWlT9n4AJYZB1lnyhWvjUz9RUazETGx0UCGg2FjPyQ/exec'};
 var curUser=null,curMonth='',editId=null,donutChart=null,trendChart=null;
 
 function fmt(n){return Math.round(n).toLocaleString('zh-TW');}
@@ -880,6 +891,26 @@ function renderSettings(){
   document.getElementById('setting-total-display').textContent='NT$ '+fmt(total);
   var sui=document.getElementById('sheets-url-input');
   if(sui) sui.value=settings.sheetsUrl||'';
+  renderRecurringTxns();
+}
+function renderRecurringTxns(){
+  var rt=settings.recurringTxns||[];var html='';
+  for(var ri=0;ri<rt.length;ri++){html+='<div style="display:flex;align-items:center;gap:8px;padding:8px;background:var(--surface3);border-radius:10px;justify-content:space-between;"><div style="font-size:12px;"><strong>'+rt[ri].note+'</strong><div style="font-size:10px;color:var(--muted);">NT$ '+fmt(rt[ri].amount)+'</div></div><button onclick="deleteRecurringTxn('+ri+')" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:14px;padding:0 4px;">✕</button></div>';}
+  document.getElementById('recurring-txns-list').innerHTML=html;
+}
+function addRecurringTxn(){
+  var note=document.getElementById('recurring-note').value.trim();
+  var amount=Number(document.getElementById('recurring-amount').value);
+  if(!note||!amount){showToast('⚠️ 輸入交易名稱和金額');return;}
+  if(!settings.recurringTxns)settings.recurringTxns=[];
+  settings.recurringTxns.push({note:note,amount:amount});
+  document.getElementById('recurring-note').value='';
+  document.getElementById('recurring-amount').value='';
+  saveAll();renderRecurringTxns();showToast('✅ 常用交易已新增');
+}
+function deleteRecurringTxn(idx){
+  settings.recurringTxns.splice(idx,1);
+  saveAll();renderRecurringTxns();showToast('🗑️ 已刪除');
 }
 function saveBudget(){
   var inp=document.querySelectorAll('[data-cat]');
@@ -956,13 +987,18 @@ function renderQuickTags(catId){
   for(var ti=0;ti<tags.length;ti++){html+='<div class="quick-tag" onclick="document.getElementById(\'note-input\').value=\''+tags[ti]+'\';document.getElementById(\'note-input\').focus();">'+tags[ti]+'</div>';}
   document.getElementById('quick-tags').innerHTML=html;
 }
+function renderRecurringChips(){
+  var rt=settings.recurringTxns||[];var html='';
+  for(var ri=0;ri<rt.length;ri++){html+='<div class="quick-tag" onclick="document.getElementById(\'amount-input\').value='+rt[ri].amount+';document.getElementById(\'note-input\').value=\''+rt[ri].note+'\';document.getElementById(\'amount-input\').focus();">💰 '+rt[ri].note+'</div>';}
+  document.getElementById('recurring-chips').innerHTML=html;
+}
 function openModal(){
   editId=null;confirmPending=false;
   document.getElementById('modal-title').textContent='新增記錄';
   document.getElementById('amount-input').value='';document.getElementById('note-input').value='';
   document.getElementById('delete-btn').style.display='none';
   document.getElementById('date-input').value=new Date().toISOString().split('T')[0];
-  buildCatGrid('food');renderPresets('food');updateModalHint('food');renderQuickTags('food');
+  buildCatGrid('food');renderPresets('food');updateModalHint('food');renderQuickTags('food');renderRecurringChips();
   document.getElementById('modal').classList.add('open');
   setTimeout(function(){document.getElementById('amount-input').focus();},300);
 }
