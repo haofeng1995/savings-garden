@@ -19,9 +19,16 @@
   --bg:#f5f3f0;--surface:#fefdfb;--surface2:#f9f7f5;--surface3:#f0ebe5;
   --border:rgba(0,0,0,0.05);--border2:rgba(0,0,0,0.08);
   --purple:#b8a8d9;--purple-dim:rgba(184,168,217,0.15);
-  --mint:#6db8a8;--red:#d97a6f;--amber:#d4a85c;
-  --text:#3d3935;--muted:#8a8581;--subtle:#a39e99;
+  --mint:#5a9b8e;--red:#b85a47;--amber:#b89656;
+  --text:#1a1513;--muted:#5a4f47;--subtle:#7a6f67;
   --font:'Nunito',system-ui,sans-serif;
+}
+html.dark-mode{
+  --bg:#0a0e1a;--surface:#131929;--surface2:#1c2538;--surface3:#222d40;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --purple:#c9b8e0;--purple-dim:rgba(201,184,224,0.15);
+  --mint:#5eccc0;--red:#f87171;--amber:#fbbf24;
+  --text:#f1f5f9;--muted:#a0aec0;--subtle:#94a3b8;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);overflow:hidden;}
@@ -127,8 +134,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .plants-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
 .plant-pot-cell{display:flex;flex-direction:column;align-items:center;cursor:pointer;}
 .plant-visual{position:relative;width:60px;height:70px;display:flex;align-items:flex-end;justify-content:center;font-size:40px;margin-bottom:3px;}
-.pot-rim{width:28px;height:5px;background:#d97706;border-radius:3px;z-index:3;}
-.pot-body{width:24px;height:12px;background:linear-gradient(180deg,#b45309,#92400e);border-radius:0 0 6px 6px;z-index:3;}
+.pot-rim{width:28px;height:5px;background:var(--amber);border-radius:3px;z-index:3;}
+.pot-body{width:24px;height:12px;background:linear-gradient(180deg,var(--red),var(--amber));border-radius:0 0 6px 6px;z-index:3;}
 .plant-name-chip{font-size:9px;font-weight:800;color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.4);border-radius:6px;padding:2px 6px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;}
 .plant-spent-lbl{font-size:9px;font-weight:700;color:var(--mint);text-align:center;margin-top:2px;}
 
@@ -325,6 +332,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
         </div>
         <div class="settings-row" onclick="document.getElementById('import-file').click()" style="cursor:pointer">
           <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">upload</span>匯入資料</div></div>
+          <span style="color:var(--subtle)">›</span>
+        </div>
+        <div class="settings-row" onclick="toggleTheme()" style="cursor:pointer">
+          <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;" id="theme-icon">light_mode</span><span id="theme-label">淺色模式</span></div></div>
           <span style="color:var(--subtle)">›</span>
         </div>
         <div class="settings-row" onclick="doLogout()" style="cursor:pointer">
@@ -630,6 +641,20 @@ async function doAuth(){
     msg.style.color='var(--red)';
     msg.textContent='❌ '+err.message;
   }
+}
+
+function toggleTheme(){
+  var isDark=document.documentElement.classList.toggle('dark-mode');
+  localStorage.setItem('sg_theme',isDark?'dark':'light');
+  updateThemeUI();
+  showToast(isDark?'🌙 深色模式':'☀️ 淺色模式');
+}
+function updateThemeUI(){
+  var isDark=document.documentElement.classList.contains('dark-mode');
+  var icon=document.getElementById('theme-icon');
+  var label=document.getElementById('theme-label');
+  if(icon) icon.textContent=isDark?'dark_mode':'light_mode';
+  if(label) label.textContent=isDark?'深色模式':'淺色模式';
 }
 
 function doLogout(){
@@ -1124,6 +1149,11 @@ async function initApp(){
   }
 
   if(!sbClient){setTimeout(initApp,100);return;}
+
+  // 恢復主題偏好
+  var savedTheme=localStorage.getItem('sg_theme');
+  if(savedTheme==='dark') document.documentElement.classList.add('dark-mode');
+  updateThemeUI();
 
   // 先從 localStorage 讀取（讓頁面有初始資料）
   loadLocalData();
