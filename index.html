@@ -336,7 +336,7 @@ function monthSpent(ym){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)s+=
 function catSpent(ym,cid){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)if(mt[i].cat===cid)s+=Number(mt[i].amount);return s;}
 function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].cat===cid)s+=Number(txns[i].amount);return s;}
 
-// AUTH - Email/Password
+// AUTH - Email/Password (REST API)
 async function doLogin(){
   var msg=document.getElementById('login-msg');
   var email=document.getElementById('login-email').value.trim();
@@ -350,39 +350,51 @@ async function doLogin(){
 
   msg.textContent='登入中...';
 
-  // 等待 SDK 加載
-  var retry=0;
-  while(!supabase && retry<50){
-    if(window.supabase){
-      const {createClient}=window.supabase;
-      supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
-      break;
-    }
-    await new Promise(r=>setTimeout(r,100));
-    retry++;
-  }
-
-  if(!supabase){
-    msg.textContent='初始化失敗，請重新整理頁面';
-    return;
-  }
-
   try{
     // 先試登入
-    var {data,error}=await supabase.auth.signInWithPassword({email,password});
+    var url=SUPABASE_URL+'/auth/v1/token?grant_type=password';
+    var res=await fetch(url,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
+      body:JSON.stringify({email,password})
+    });
+    var data=await res.json();
 
-    if(error && error.message.includes('Invalid login')){
-      // 新用戶，建立帳號
-      var {data:signUpData,error:signUpError}=await supabase.auth.signUp({email,password});
-      if(signUpError) throw signUpError;
-      // 登入
-      var {data:loginData,error:loginError}=await supabase.auth.signInWithPassword({email,password});
-      if(loginError) throw loginError;
-    }else if(error){
-      throw error;
+    if(!res.ok){
+      if(data.message.includes('Invalid login credentials')){
+        // 新用戶，建立帳號
+        var signUpUrl=SUPABASE_URL+'/auth/v1/signup';
+        var signUpRes=await fetch(signUpUrl,{
+          method:'POST',
+          headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
+          body:JSON.stringify({email,password})
+        });
+        if(!signUpRes.ok) throw new Error('建立帳號失敗');
+
+        // 再登入一次
+        var retryRes=await fetch(url,{
+          method:'POST',
+          headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
+          body:JSON.stringify({email,password})
+        });
+        if(!retryRes.ok) throw new Error('登入失敗');
+        data=await retryRes.json();
+      }else{
+        throw new Error(data.message||'登入失敗');
+      }
     }
 
+    // 保存 token
+    localStorage.setItem('sb_token',data.access_token);
+    localStorage.setItem('sb_user',JSON.stringify(data.user));
+    curUser=data.user;
+
     msg.textContent='✅ 登入成功！';
+    setTimeout(function(){
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('app').classList.add('active');
+      renderHome();
+    },500);
   }catch(err){
     msg.textContent='❌ '+err.message;
   }
