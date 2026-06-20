@@ -142,7 +142,55 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 .settings-input{background:var(--surface2);border:0.5px solid var(--border);border-radius:8px;padding:7px 10px;font-family:var(--font);font-size:14px;font-weight:700;color:var(--text);text-align:right;width:110px;}
 .danger-btn{width:100%;background:rgba(248,113,113,0.1);border:0.5px solid rgba(248,113,113,0.2);border-radius:12px;padding:14px;font-family:var(--font);font-size:14px;font-weight:700;color:var(--red);cursor:pointer;margin-top:4px;}
 #import-file{display:none;}
+.add-cat-btn{display:flex;align-items:center;gap:8px;width:100%;background:none;border:1px dashed var(--border2);border-radius:12px;padding:12px 14px;color:var(--subtle);font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;margin-top:8px;transition:opacity .15s;}
+.add-cat-btn:active{opacity:.6;}
+.cat-manage-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .15s;}
+.cat-manage-item:last-child{border-bottom:none;}
+.cat-manage-item:active{background:var(--surface2);}
+.cat-manage-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;}
+.cat-manage-name{flex:1;font-size:14px;font-weight:700;}
+.cat-manage-budget{font-size:12px;color:var(--muted);}
+#cat-modal{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:300;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);}
+#cat-modal.open{display:flex;}
+.cat-modal-body{background:var(--surface);border-radius:28px 28px 0 0;padding:20px 20px 40px;width:100%;max-width:430px;max-height:85dvh;overflow-y:auto;}
+.cat-modal-body::-webkit-scrollbar{display:none;}
+.color-picker-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px;}
+.color-dot{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:border-color .15s;flex-shrink:0;}
+.color-dot.selected{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,0.3);}
+.icon-picker-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;}
+.icon-opt{background:var(--surface2);border:1.5px solid transparent;border-radius:10px;padding:8px 4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
+.icon-opt.selected{border-color:var(--purple);background:var(--purple-dim);}
+.icon-opt .material-icons{font-size:22px;}
+.preset-section{margin-bottom:12px;}
+.preset-label{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.preset-scroll{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;}
+.preset-scroll::-webkit-scrollbar{display:none;}
+.preset-chip{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:20px;padding:5px 10px 5px 12px;font-family:var(--font);font-size:12px;font-weight:700;color:var(--text);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s;}
+.preset-chip:active{background:var(--surface3);}
+.preset-chip-x{font-size:15px;color:var(--muted);line-height:1;padding:0 2px;}
+.preset-add{display:inline-flex;align-items:center;gap:4px;background:none;border:0.5px dashed var(--border2);border-radius:20px;padding:5px 12px;font-family:var(--font);font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s;}
+.preset-add:active{opacity:.6;}
 
+.week-card{margin:0 16px 14px;background:var(--surface2);border-radius:20px;padding:16px 18px;border:0.5px solid rgba(167,139,250,0.15);}
+.week-card-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.week-card-title{font-size:11px;font-weight:800;color:var(--subtle);text-transform:uppercase;letter-spacing:.08em;}
+.week-card-days{font-size:11px;color:var(--muted);}
+.week-card-amounts{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}
+.week-card-spent{font-size:22px;font-weight:900;}
+.week-card-limit{font-size:12px;color:var(--muted);}
+.week-card-status{font-size:11px;margin-top:6px;}
+.burn-row{display:flex;align-items:center;gap:6px;border-top:0.5px solid var(--border);margin-top:10px;padding-top:8px;font-size:11px;color:var(--muted);}
+.plant-stress-dormant{filter:grayscale(70%) brightness(0.8);}
+.plant-stress-yellow{filter:sepia(80%) saturate(1.5) hue-rotate(-10deg) brightness(0.85);}
+.plant-stress-withered{filter:grayscale(100%) brightness(0.55);}
+.stress-badge{font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;background:rgba(251,191,36,0.2);color:var(--amber);margin-bottom:2px;display:inline-block;}
+.stress-badge.bad{background:rgba(248,113,113,0.2);color:var(--red);}
+.checkpoint-pop{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:400;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+.checkpoint-card{background:var(--surface);border-radius:24px;padding:28px 24px;max-width:340px;width:90%;text-align:center;}
+.checkpoint-emoji{font-size:56px;margin-bottom:12px;}
+.checkpoint-title{font-size:20px;font-weight:900;margin-bottom:6px;}
+.checkpoint-sub{font-size:13px;color:var(--subtle);line-height:1.6;margin-bottom:20px;}
+.checkpoint-btn{width:100%;background:var(--purple);border:none;border-radius:14px;padding:14px;font-family:var(--font);font-size:15px;font-weight:800;color:#fff;cursor:pointer;}
 #toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-70px);background:var(--surface2);border:0.5px solid var(--border2);border-radius:12px;padding:10px 20px;font-size:13px;font-weight:700;color:var(--text);z-index:999;transition:transform .3s;white-space:nowrap;}
 #toast.show{transform:translateX(-50%) translateY(0);}
 </style>
@@ -153,11 +201,31 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div id="login-screen">
   <div class="login-logo">🌳</div>
   <div class="login-title">省錢花園</div>
-  <div class="login-sub">用 GitHub 登入<br>資料存在雲端</div>
+  <div class="login-sub">資料存在雲端，各自帳號各自記錄</div>
   <div class="login-card">
-    <button class="login-btn" onclick="loginWithGitHub()">🔐 用 GitHub 登入</button>
+    <button onclick="doGoogleAuth()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:#fff;border:none;border-radius:14px;padding:14px;font-family:var(--font);font-size:15px;font-weight:800;color:#1f2937;cursor:pointer;margin-bottom:16px;">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      用 Google 登入
+    </button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+      <span style="font-size:11px;color:var(--muted);font-weight:700;">或用 Email</span>
+      <div style="flex:1;height:0.5px;background:var(--border2)"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <button id="tab-login" onclick="switchTab('login')" style="flex:1;background:var(--purple);border:none;border-radius:10px;padding:8px;font-family:var(--font);font-size:13px;font-weight:800;color:#fff;cursor:pointer;">登入</button>
+      <button id="tab-signup" onclick="switchTab('signup')" style="flex:1;background:var(--surface2);border:0.5px solid var(--border);border-radius:10px;padding:8px;font-family:var(--font);font-size:13px;font-weight:800;color:var(--subtle);cursor:pointer;">註冊</button>
+    </div>
+    <label class="login-label">Email</label>
+    <input type="email" class="login-input" id="email-input" placeholder="your@email.com" autocomplete="email">
+    <label class="login-label">密碼</label>
+    <input type="password" class="login-input" id="password-input" placeholder="••••••••" autocomplete="current-password">
+    <div id="confirm-wrap" style="display:none;">
+      <label class="login-label">確認密碼</label>
+      <input type="password" class="login-input" id="confirm-input" placeholder="••••••••" autocomplete="new-password">
+    </div>
+    <button class="login-btn" id="login-btn" onclick="doAuth()">登入</button>
     <div class="login-msg" id="login-msg"></div>
-    <div class="login-hint">第一次登入會自動建立帳號</div>
   </div>
 </div>
 
@@ -179,7 +247,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="bcard-sub" id="b-sub"></div>
       <div class="prog-track"><div class="prog-fill" id="b-prog" style="width:0%;background:var(--mint)"></div></div>
       <div class="prog-labels"><span id="b-pct">0%</span><span id="b-days"></span></div>
+      <div id="b-compare" style="font-size:11px;color:var(--subtle);margin-top:6px;text-align:right;"></div>
     </div>
+    <div id="week-card-wrap"></div>
     <div class="section">
       <div class="sec-title">最近記錄</div>
       <div class="txn-list" id="txn-list"><div class="empty-state"><div class="empty-icon">🌸</div><p>還沒有記錄</p></div></div>
@@ -225,12 +295,23 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
       <div class="sec-title">預算</div>
       <div class="settings-card">
         <div class="settings-row">
-          <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">account_balance_wallet</span>每月預算</div></div>
-          <input type="number" class="settings-input" id="setting-total" placeholder="20000" oninput="saveAll()">
+          <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">account_balance_wallet</span>每月總預算</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">各類別加總自動計算</div></div>
+          <div id="setting-total-display" style="font-size:16px;font-weight:800;color:var(--purple)">NT$ 0</div>
         </div>
       </div>
-      <div class="sec-title">各類別</div>
+      <div class="sec-title">類別管理</div>
+      <div class="settings-card" id="cat-manage-list"></div>
+      <button class="add-cat-btn" onclick="openCatModal(null)"><span class="material-icons" style="font-size:20px;">add</span>新增類別</button>
+      <button class="add-cat-btn" onclick="resetCatsToDefault()" style="color:var(--amber);border-color:var(--amber);margin-top:6px;"><span class="material-icons" style="font-size:20px;">restart_alt</span>恢復預設類別</button>
+      <div class="sec-title" style="margin-top:16px;">各類別預算</div>
       <div class="settings-card" id="cat-budget-list"></div>
+      <div class="sec-title">Google Sheet 同步</div>
+      <div class="settings-card">
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+          <div class="settings-label" style="display:flex;align-items:center;gap:6px;"><span class="material-icons" style="font-size:18px;color:var(--mint);">table_chart</span>自動同步新增記錄到 Google Sheet</div>
+          <input type="text" id="sheets-url-input" placeholder="貼上 Apps Script URL" style="width:100%;background:var(--surface2);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--font);font-size:12px;color:var(--text);outline:none;" oninput="settings.sheetsUrl=this.value;saveAll();">
+        </div>
+      </div>
       <div class="sec-title">資料</div>
       <div class="settings-card">
         <div class="settings-row" onclick="exportData()" style="cursor:pointer">
@@ -246,6 +327,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
           <span style="color:var(--subtle)">›</span>
         </div>
       </div>
+      <button class="add-cat-btn" onclick="forceCloudSync()" style="color:var(--mint);border-color:var(--mint);margin-bottom:8px;"><span class="material-icons" style="font-size:20px;">cloud_upload</span>強制同步到雲端</button>
+      <div id="sync-status" style="font-size:11px;color:var(--subtle);text-align:center;margin-bottom:8px;"></div>
       <button class="danger-btn" onclick="resetData()"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:18px;">delete</span>清除所有資料</button>
       <input type="file" id="import-file" accept=".json" onchange="importData(event)">
     </div>
@@ -267,13 +350,40 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
     <div class="modal-title" id="modal-title">新增記錄</div>
     <div class="amount-wrap"><div class="amount-inner"><span class="amount-prefix">NT$</span><input type="number" id="amount-input" placeholder="0"></div></div>
     <div class="input-group"><label class="input-label">類別</label><div class="cat-grid" id="cat-grid"></div></div>
+    <div class="preset-section" id="preset-section" style="display:none;">
+      <div class="preset-label">常用</div>
+      <div class="preset-scroll" id="preset-chips"></div>
+    </div>
     <div class="input-group"><label class="input-label">備註</label><input type="text" class="text-input" id="note-input" placeholder="例：家樂福"></div>
     <div class="input-group"><label class="input-label">日期</label><input type="date" class="text-input" id="date-input"></div>
+    <div id="modal-budget-hint" style="text-align:center;font-size:12px;color:var(--subtle);padding:6px 0 2px;min-height:20px;"></div>
     <button class="save-btn" id="save-btn" onclick="saveTxn()">✓ 儲存</button>
     <button class="delete-btn" id="delete-btn" style="display:none" onclick="deleteTxn()">刪除</button>
   </div>
 </div>
 
+</div>
+
+<!-- CAT MODAL -->
+<div id="cat-modal" onclick="if(event.target===this)closeCatModal()">
+  <div class="cat-modal-body">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="cat-modal-title">新增類別</div>
+    <div class="input-group">
+      <label class="input-label">名稱</label>
+      <input type="text" class="text-input" id="cat-name-input" placeholder="例：旅遊" maxlength="6">
+    </div>
+    <div class="input-group">
+      <label class="input-label">顏色</label>
+      <div class="color-picker-row" id="cat-color-picker"></div>
+    </div>
+    <div class="input-group">
+      <label class="input-label">圖示</label>
+      <div class="icon-picker-grid" id="cat-icon-picker"></div>
+    </div>
+    <button class="save-btn" onclick="saveCatEdit()">✓ 儲存</button>
+    <button class="delete-btn" id="cat-delete-btn" style="display:none;margin-top:8px;" onclick="confirmDeleteCat()">刪除類別</button>
+  </div>
 </div>
 
 <div id="toast"></div>
@@ -282,9 +392,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 // Supabase 初始化
 const SUPABASE_URL='https://pujiwylhqbrtwcbtyvee.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_xBLJG1_en-A_7KokEr5WAg_uX-Aq0lB';
-var supabase=null;
+var sbClient=null;
 
-var CATS=[
+var DEFAULT_CATS=[
   {id:'food',name:'餐費',icon:'restaurant',color:'#f97316'},
   {id:'transit',name:'交通',icon:'directions_transit',color:'#38bdf8'},
   {id:'shop',name:'購物',icon:'shopping_cart',color:'#ec4899'},
@@ -292,7 +402,16 @@ var CATS=[
   {id:'health',name:'醫療',icon:'health_and_safety',color:'#10b981'},
   {id:'other',name:'其他',icon:'category',color:'#94a3b8'}
 ];
-var CAT_MAP={};for(var i=0;i<CATS.length;i++){CATS[i].emoji=CATS[i].icon;CAT_MAP[CATS[i].id]=CATS[i];}
+var CATS=DEFAULT_CATS.map(function(c){return {...c};});
+var CAT_MAP={};
+function rebuildCats(){
+  var src=(settings&&settings.cats&&settings.cats.length)?settings.cats:DEFAULT_CATS.map(function(c){return {...c};});
+  CATS=src;
+  CAT_MAP={};for(var i=0;i<CATS.length;i++){CATS[i].emoji=CATS[i].icon;CAT_MAP[CATS[i].id]=CATS[i];}
+}
+
+var CAT_COLORS=['#f97316','#38bdf8','#ec4899','#8b5cf6','#10b981','#fbbf24','#f87171','#94a3b8','#06b6d4','#84cc16'];
+var CAT_ICONS=['restaurant','local_cafe','fastfood','shopping_cart','local_grocery_store','directions_transit','directions_car','flight','sports_esports','movie','music_note','fitness_center','health_and_safety','home','school','work','savings','pets','travel_explore','category'];
 
 var GROWTH=[
   {name:'種子',emoji:'🌰'},
@@ -321,39 +440,189 @@ var XP=[0,200,500,1000,2000,3500,5500,8000,11000,15000,20000,27000,35000,45000,5
 function getStage(total){var s=0;for(var i=GROWTH.length-1;i>=0;i--){if(total>=XP[i]){s=i;break;}}return s;}
 function getXPInfo(total){var s=getStage(total);if(s>=GROWTH.length-1)return {pct:100,stage:s};var cur=XP[s],next=XP[s+1];return {pct:Math.round((total-cur)/(next-cur)*100),stage:s};}
 
-var txns=[],settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000}};
+var txns=[],settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000},cats:null,presets:{},carryOver:0,lastSettledWeek:null,sheetsUrl:'https://script.google.com/macros/s/AKfycbywXZhMV1ePZWUn_1R_QVQVptJGpWlT9n4AJYZB1lnyhWvjUz9RUazETGx0UCGg2FjPyQ/exec'};
 var curUser=null,curMonth='',editId=null,donutChart=null,trendChart=null;
 
 function fmt(n){return Math.round(n).toLocaleString('zh-TW');}
+
+// ── 週節點計算 ───────────────────────────────
+function getWeekBounds(){
+  var now=new Date();
+  var day=now.getDay(); // 0=日
+  var diffToMon=(day===0)?-6:1-day;
+  var mon=new Date(now);mon.setDate(now.getDate()+diffToMon);mon.setHours(0,0,0,0);
+  var sun=new Date(mon);sun.setDate(mon.getDate()+6);sun.setHours(23,59,59,999);
+  return {start:mon.toISOString().split('T')[0],end:sun.toISOString().split('T')[0],daysLeft:sun.getDay()===0?(7-now.getDay())%7:0};
+}
+function weekSpent(){
+  var b=getWeekBounds(),s=0;
+  for(var i=0;i<txns.length;i++){if(txns[i].date>=b.start&&txns[i].date<=b.end)s+=Number(txns[i].amount);}
+  return s;
+}
+function getWeeklyBudget(){
+  var now=new Date();
+  var dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  return Math.max(0,settings.totalBudget/dim*7-(settings.carryOver||0));
+}
+function getDaysUntilSunday(){
+  var day=new Date().getDay();
+  return day===0?0:7-day;
+}
+function getBurnRate(){
+  var now=new Date();
+  var dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  var dom=now.getDate();
+  var monthPct=Math.round(dom/dim*100);
+  var spentPct=settings.totalBudget>0?Math.round(monthSpent(curMonth)/settings.totalBudget*100):0;
+  return {monthPct:monthPct,spentPct:spentPct,ahead:spentPct<=monthPct,diff:Math.abs(spentPct-monthPct)};
+}
+// ── 花園 XP（以「省下的錢」為單位）────────────
+function getCatSavingsXP(catId){
+  var budget=settings.catBudgets[catId]||0;
+  var spent=catSpent(curMonth,catId);
+  return Math.max(0,budget-spent);
+}
+function getCatStress(catId){
+  var budget=settings.catBudgets[catId]||0;
+  if(!budget)return 'ok';
+  var ratio=catSpent(curMonth,catId)/budget;
+  if(ratio<=1)return 'ok';
+  if(ratio<=1.2)return 'dormant';
+  if(ratio<=1.5)return 'yellow';
+  return 'withered';
+}
+// ── 週結算 ────────────────────────────────────
+function tryWeeklySettlement(){
+  var now=new Date();
+  if(now.getDay()!==1)return; // 只在週一結算上週
+  var sun=new Date(now);sun.setDate(now.getDate()-1);
+  var sunStr=sun.toISOString().split('T')[0];
+  if(settings.lastSettledWeek===sunStr)return;
+  // 計算上週花費
+  var b=getWeekBounds();
+  var lastStart=new Date(b.start);lastStart.setDate(lastStart.getDate()-7);
+  var lastEnd=new Date(b.end);lastEnd.setDate(lastEnd.getDate()-7);
+  var ls=lastStart.toISOString().split('T')[0],le=lastEnd.toISOString().split('T')[0];
+  var spent=0;for(var i=0;i<txns.length;i++){if(txns[i].date>=ls&&txns[i].date<=le)spent+=Number(txns[i].amount);}
+  var wBudget=getWeeklyBudget();
+  var over=spent-wBudget;
+  var prevCarry=settings.carryOver||0;
+  if(over>0){
+    // 超支：攜入下週
+    var newDebt=over<=wBudget*0.2?over*0.5:over<=wBudget*0.5?over*0.7:over;
+    settings.carryOver=Math.round(prevCarry+newDebt);
+    showCheckpointResult(false,spent,wBudget,settings.carryOver);
+  }else{
+    // 達標：清債 & 顯示獎勵
+    settings.carryOver=Math.max(0,prevCarry+over); // over 是負數，所以會減少
+    showCheckpointResult(true,spent,wBudget,settings.carryOver);
+  }
+  settings.lastSettledWeek=sunStr;
+  saveAll();
+}
+function showCheckpointResult(passed,spent,budget,newCarry){
+  var saved=budget-spent;
+  var html='<div class="checkpoint-pop" id="cp-pop"><div class="checkpoint-card">';
+  if(passed){
+    html+='<div class="checkpoint-emoji">🌱</div>';
+    html+='<div class="checkpoint-title">節點達標！</div>';
+    html+='<div class="checkpoint-sub">上週省了 NT$ '+fmt(saved)+'<br>樹木繼續成長中</div>';
+    if(newCarry>0)html+='<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">剩餘債務：NT$ '+fmt(newCarry)+'</div>';
+  }else{
+    html+='<div class="checkpoint-emoji">🍂</div>';
+    html+='<div class="checkpoint-title">超出預算了</div>';
+    html+='<div class="checkpoint-sub">上週超支 NT$ '+fmt(-saved)+'<br>下週預算將減少 NT$ '+fmt(newCarry)+'</div>';
+    // 找最超支的類別給具體建議
+    var now2=new Date();
+    var mon=new Date(now2);mon.setDate(now2.getDate()-(now2.getDay()===0?6:now2.getDay()-1));mon.setDate(mon.getDate()-7);
+    var sun=new Date(mon);sun.setDate(mon.getDate()+6);
+    var ls=mon.toISOString().split('T')[0],le=sun.toISOString().split('T')[0];
+    var overCats=[];
+    for(var ci=0;ci<CATS.length;ci++){
+      var wCatB=(settings.catBudgets[CATS[ci].id]||0)/4.3;
+      var wCatS=0;for(var ti=0;ti<txns.length;ti++){if(txns[ti].category===CATS[ci].id&&txns[ti].date>=ls&&txns[ti].date<=le)wCatS+=Number(txns[ti].amount);}
+      if(wCatS>wCatB&&wCatB>0)overCats.push({name:CATS[ci].name,over:Math.round(wCatS-wCatB)});
+    }
+    overCats.sort(function(a,b){return b.over-a.over;});
+    if(overCats.length){
+      var daily=Math.round(overCats[0].over/7);
+      html+='<div style="font-size:12px;background:rgba(255,255,255,0.05);border-radius:10px;padding:10px 12px;margin:8px 0;text-align:left;line-height:1.6;">';
+      html+='💡 <strong>'+overCats[0].name+'</strong>超支最多<br>';
+      html+='下週每天少花 <strong style="color:var(--mint)">NT$ '+fmt(daily)+'</strong> 就能補回來</div>';
+    }
+    if(newCarry>0)html+='<div style="font-size:11px;color:var(--muted);margin-bottom:8px;">含舊債，累計減少 NT$ '+fmt(newCarry)+'</div>';
+  }
+  html+='<button class="checkpoint-btn" onclick="document.getElementById(\'cp-pop\').remove()">知道了</button></div></div>';
+  document.body.insertAdjacentHTML('beforeend',html);
+}
+
 function fmtDate(ds){var d=new Date(ds+'T12:00:00'),n=new Date();var diff=Math.floor((n-d)/86400000);if(diff===0)return '今天';if(diff===1)return '昨天';return (d.getMonth()+1)+'/'+d.getDate();}
 function fmtMonth(ym){var p=ym.split('-');return p[0]+'年'+Number(p[1])+'月';}
 function getMonthYM(base,offset){var p=base.split('-');var d=new Date(Number(p[0]),Number(p[1])-1+offset,1);var m=d.getMonth()+1;return d.getFullYear()+'-'+(m<10?'0'+m:''+m);}
 function monthTxns(ym){var r=[];for(var i=0;i<txns.length;i++){if(txns[i].date&&txns[i].date.indexOf(ym)===0)r.push(txns[i]);}return r;}
 function monthSpent(ym){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)s+=Number(mt[i].amount);return s;}
-function catSpent(ym,cid){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)if(mt[i].cat===cid)s+=Number(mt[i].amount);return s;}
-function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].cat===cid)s+=Number(txns[i].amount);return s;}
+function catSpent(ym,cid){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)if(mt[i].category===cid)s+=Number(mt[i].amount);return s;}
+function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].category===cid)s+=Number(txns[i].amount);return s;}
 
-// AUTH - GitHub OAuth
-async function loginWithGitHub(){
+// AUTH
+async function doGoogleAuth(){
+  if(!sbClient){document.getElementById('login-msg').textContent='連線中，請稍候...';return;}
+  var {error}=await sbClient.auth.signInWithOAuth({
+    provider:'google',
+    options:{redirectTo:window.location.origin}
+  });
+  if(error){document.getElementById('login-msg').textContent='❌ '+error.message;}
+}
+
+var authMode='login';
+function switchTab(mode){
+  authMode=mode;
+  var isLogin=mode==='login';
+  document.getElementById('tab-login').style.background=isLogin?'var(--purple)':'var(--surface2)';
+  document.getElementById('tab-login').style.color=isLogin?'#fff':'var(--subtle)';
+  document.getElementById('tab-signup').style.background=isLogin?'var(--surface2)':'var(--purple)';
+  document.getElementById('tab-signup').style.color=isLogin?'var(--subtle)':'#fff';
+  document.getElementById('confirm-wrap').style.display=isLogin?'none':'block';
+  document.getElementById('login-btn').textContent=isLogin?'登入':'註冊';
+  document.getElementById('login-msg').textContent='';
+}
+
+async function doAuth(){
   var msg=document.getElementById('login-msg');
-  msg.textContent='重導向到 GitHub...';
-
+  var email=document.getElementById('email-input').value.trim();
+  var password=document.getElementById('password-input').value;
+  msg.textContent='';
+  if(!email||!password){msg.textContent='請填寫 Email 和密碼';return;}
+  if(authMode==='signup'){
+    var confirm=document.getElementById('confirm-input').value;
+    if(password!==confirm){msg.textContent='兩次密碼不一致';return;}
+    if(password.length<6){msg.textContent='密碼至少 6 個字元';return;}
+  }
+  msg.style.color='var(--subtle)';
+  msg.textContent=authMode==='login'?'登入中...':'註冊中...';
   try{
-    // 用 Supabase REST API 取得 GitHub OAuth URL
-    var url=SUPABASE_URL+'/auth/v1/oauth2/authorize?provider=github&client_id='+SUPABASE_ANON_KEY+'&redirect_to='+encodeURIComponent(window.location.origin);
-
-    // 改用簡單的方式：直接構建 OAuth URL
-    var params=new URLSearchParams({
-      provider:'github',
-      redirect_to:window.location.origin,
-      skip_browser_redirect:'false'
-    });
-
-    var oauthUrl=SUPABASE_URL+'/auth/v1/authorize?'+params.toString();
-    console.log('Redirecting to:', oauthUrl);
-    window.location.href=oauthUrl;
+    var result;
+    if(authMode==='login'){
+      result=await sbClient.auth.signInWithPassword({email,password});
+    }else{
+      result=await sbClient.auth.signUp({email,password});
+    }
+    if(result.error){
+      msg.style.color='var(--red)';
+      var errMsg=result.error.message;
+      if(errMsg.includes('Invalid login credentials'))errMsg='Email 或密碼錯誤';
+      else if(errMsg.includes('User already registered'))errMsg='此 Email 已註冊，請直接登入';
+      else if(errMsg.includes('Email not confirmed'))errMsg='請先確認 Email（檢查信箱）';
+      msg.textContent='❌ '+errMsg;
+      return;
+    }
+    if(authMode==='signup'&&result.data.user&&!result.data.session){
+      msg.style.color='var(--mint)';
+      msg.textContent='✅ 請到 '+email+' 收信確認';
+      return;
+    }
   }catch(err){
-    console.error('OAuth error:', err);
+    msg.style.color='var(--red)';
     msg.textContent='❌ '+err.message;
   }
 }
@@ -369,43 +638,71 @@ function doLogout(){
   showToast('已登出');
 }
 
+function loadLocalData(){
+  try{
+    var ls=localStorage.getItem('sg_settings');
+    var lt=localStorage.getItem('sg_txns');
+    if(ls) settings=Object.assign({},settings,JSON.parse(ls));
+    if(lt) txns=JSON.parse(lt);
+    for(var i=0;i<txns.length;i++){if(txns[i].cat!==undefined&&txns[i].category===undefined){txns[i].category=txns[i].cat;delete txns[i].cat;}}
+    rebuildCats();
+  }catch(e){}
+}
+
 async function loadUserData(){
   if(!curUser) return;
   try{
-    const {data,error}=await supabase
+    const {data}=await sbClient
       .from('user_settings')
       .select('*')
       .eq('user_id',curUser.id)
       .single();
     if(data){
-      settings=data.cat_budgets?{totalBudget:data.total_budget||20000,catBudgets:data.cat_budgets}:{totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000}};
+      settings.totalBudget=data.total_budget||20000;
+      if(data.cat_budgets) settings.catBudgets=data.cat_budgets;
+      if(data.cats&&data.cats.length) settings.cats=data.cats;
+      if(data.presets) settings.presets=data.presets;
+      if(data.carry_over!=null) settings.carryOver=data.carry_over;
+      if(data.last_settled_week) settings.lastSettledWeek=data.last_settled_week;
+      rebuildCats();
     }
 
-    const {data:txnData,error:txnErr}=await supabase
+    const {data:txnData}=await sbClient
       .from('transactions')
       .select('*')
       .eq('user_id',curUser.id)
       .order('date',{ascending:false});
-    if(txnData) txns=txnData;
+    if(txnData){
+      // 合併本地+雲端（用 ID 去重，Supabase 版本優先）
+      var merged={};
+      for(var _i=0;_i<txns.length;_i++) merged[txns[_i].id]=txns[_i];
+      for(var _j=0;_j<txnData.length;_j++) merged[txnData[_j].id]=txnData[_j];
+      txns=Object.values(merged);
+      // 本地有但雲端缺的 → 補同步
+      var sbIds=new Set(txnData.map(function(t){return t.id;}));
+      var toSync=txns.filter(function(t){return !sbIds.has(t.id);});
+      if(toSync.length>0){
+        await sbClient.from('transactions').upsert(toSync.map(function(t){return Object.assign({},t,{user_id:curUser.id});}));
+      }
+    }
   }catch(err){console.error(err);}
 }
 
 async function saveAll(){
-  if(!curUser) return;
-  try{
-    await supabase
-      .from('user_settings')
-      .upsert({user_id:curUser.id,total_budget:settings.totalBudget,cat_budgets:settings.catBudgets,updated_at:new Date().toISOString()})
-      .eq('user_id',curUser.id);
+  // 永遠先存 localStorage（未登入也能用）
+  localStorage.setItem('sg_settings',JSON.stringify(settings));
+  localStorage.setItem('sg_txns',JSON.stringify(txns));
 
-    for(var i=0;i<txns.length;i++){
-      var t=txns[i];
-      if(t.user_id===undefined) t.user_id=curUser.id;
-    }
-    await supabase
+  // 登入後額外同步到 Supabase
+  if(!curUser||!sbClient) return;
+  try{
+    await sbClient
+      .from('user_settings')
+      .upsert({user_id:curUser.id,total_budget:settings.totalBudget,cat_budgets:settings.catBudgets,cats:settings.cats||null,presets:settings.presets||null,carry_over:settings.carryOver||0,last_settled_week:settings.lastSettledWeek||null,updated_at:new Date().toISOString()});
+    await sbClient
       .from('transactions')
-      .upsert(txns.map(t=>({...t,user_id:curUser.id})));
-  }catch(err){console.error(err);}
+      .upsert(txns.map(function(t){return {...t,user_id:curUser.id};}));
+  }catch(err){console.error('Supabase sync error:',err);}
 }
 
 function showScreen(name,btn){
@@ -430,13 +727,40 @@ function renderHome(){
   var pr=document.getElementById('b-prog');pr.style.width=pct+'%';pr.style.background=color;
   document.getElementById('b-pct').textContent=pct+'%';
   var now=new Date(),yp=Number(ym.split('-')[0]),mp=Number(ym.split('-')[1]);
-  document.getElementById('b-days').textContent=(now.getFullYear()===yp&&now.getMonth()+1===mp)?'還有 '+(new Date(yp,mp,0).getDate()-now.getDate())+' 天':'';
+  var isCurrentMonth=(now.getFullYear()===yp&&now.getMonth()+1===mp);
+  document.getElementById('b-days').textContent=isCurrentMonth?'還有 '+(new Date(yp,mp,0).getDate()-now.getDate())+' 天':'';
+  // 上月同期比較
+  var bc=document.getElementById('b-compare');if(bc){
+    if(isCurrentMonth){
+      var lastYM=getMonthYM(ym,-1),lmt=monthTxns(lastYM),td=now.getDate(),lmSpent=0;
+      for(var li=0;li<lmt.length;li++){if(parseInt(lmt[li].date.split('-')[2])<=td)lmSpent+=Number(lmt[li].amount);}
+      if(lmSpent>0){var diff=spent-lmSpent;bc.innerHTML=diff<=0?'<span style="color:var(--mint)">⬇ 比上月同期少 NT$ '+fmt(-diff)+'</span>':'<span style="color:var(--amber)">⬆ 比上月同期多 NT$ '+fmt(diff)+'</span>';}
+      else{bc.textContent='';}
+    }else{bc.textContent='';}
+  }
+  // 週進度卡片
+  var wBudget=getWeeklyBudget(),wSpent=weekSpent(),wRemain=wBudget-wSpent;
+  var wPct=wBudget>0?Math.min(100,Math.round(wSpent/wBudget*100)):0;
+  var wColor=wPct>=100?'var(--red)':wPct>=80?'var(--amber)':'var(--mint)';
+  var dLeft=getDaysUntilSunday();
+  var burn=getBurnRate();
+  var burnColor=burn.ahead?'var(--mint)':'var(--red)';
+  var wHtml='<div class="week-card">';
+  wHtml+='<div class="week-card-row"><span class="week-card-title">本週節點</span><span class="week-card-days">'+(dLeft===0?'今天結算':'還有 '+dLeft+' 天')+'</span></div>';
+  wHtml+='<div class="week-card-amounts"><span class="week-card-spent">NT$ '+fmt(wSpent)+'</span><span class="week-card-limit">/ NT$ '+fmt(wBudget)+'</span></div>';
+  wHtml+='<div class="prog-track"><div class="prog-fill" style="width:'+wPct+'%;background:'+wColor+'"></div></div>';
+  wHtml+='<div class="week-card-status">'+(wRemain>=0?'<span style="color:var(--mint)">🌱 還可以花 NT$ '+fmt(wRemain)+'</span>':'<span style="color:var(--red)">⚠️ 超支 NT$ '+fmt(-wRemain)+'，下週預算將減少</span>')+'</div>';
+  if(settings.carryOver>0)wHtml+='<div style="font-size:10px;color:var(--muted);margin-top:4px;">含上週債務 NT$ '+fmt(settings.carryOver)+'</div>';
+  wHtml+='<div class="burn-row"><span class="material-icons" style="font-size:14px;">local_fire_department</span>本月燃燒率：<strong style="color:'+burnColor+'">'+(burn.ahead?'省錢中':'超速')+'  '+(burn.diff)+'%</strong></div>';
+  wHtml+='</div>';
+  document.getElementById('week-card-wrap').innerHTML=wHtml;
+
   var mt=monthTxns(ym);mt.sort(function(a,b){return a.date<b.date?1:-1;});
   var list=document.getElementById('txn-list');
   if(!mt.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">🌸</div><p>還沒有記錄</p></div>';return;}
   var html='';
   for(var i=0;i<Math.min(30,mt.length);i++){
-    var t=mt[i],cat=CAT_MAP[t.cat]||CATS[5];
+    var t=mt[i],cat=CAT_MAP[t.category]||CATS[5];
     html+='<div class="txn-item" onclick="openEditModal(\''+t.id+'\')">';
     html+='<div class="txn-icon" style="background:'+cat.color+'22"><span class="material-icons" style="font-size:24px;line-height:1;">'+cat.icon+'</span></div>';
     html+='<div class="txn-info"><div class="txn-name">'+(t.note||cat.name)+'</div>';
@@ -473,36 +797,126 @@ function renderGarden(){
   var pg=document.getElementById('plants-grid'),lg=document.getElementById('garden-legend');
   var gHtml='',lHtml='';
   for(var ci=0;ci<CATS.length;ci++){
-    var cat=CATS[ci],total=allTimeCatSpent(cat.id),xp=getXPInfo(total),stage=xp.stage,g=GROWTH[stage];
-    gHtml+='<div class="plant-pot-cell"><div class="plant-visual">'+g.emoji+'</div><div class="pot-rim"></div><div class="pot-body"></div><div class="plant-name-chip">'+cat.name+'</div><div class="plant-spent-lbl">'+fmt(total)+'</div></div>';
-    var nextInfo=stage<GROWTH.length-1?('還差 NT$ '+fmt(XP[stage+1]-total)):'滿級！';
-    lHtml+='<div class="legend-card"><div class="legend-head"><div class="legend-emoji"><span class="material-icons">'+cat.icon+'</span></div><div><div class="legend-name">'+cat.name+'樹</div><div class="legend-cat">第'+(stage+1)+'/20 &middot; '+g.name+'</div></div></div><div style="font-size:10px;color:var(--subtle);">'+nextInfo+'</div></div>';
+    var cat=CATS[ci];
+    var saved=getCatSavingsXP(cat.id);
+    var stress=getCatStress(cat.id);
+    var xp=getXPInfo(saved),stage=xp.stage,g=GROWTH[stage];
+    var stressClass=stress==='ok'?'':('plant-stress-'+stress);
+    var stressLabel=stress==='dormant'?'休眠':stress==='yellow'?'枯黃':stress==='withered'?'枯萎':'';
+    var badgeClass=stress==='withered'?'stress-badge bad':'stress-badge';
+    gHtml+='<div class="plant-pot-cell">';
+    if(stressLabel)gHtml+='<div class="'+badgeClass+'">'+stressLabel+'</div>';
+    gHtml+='<div class="plant-visual '+stressClass+'">'+g.emoji+'</div>';
+    gHtml+='<div class="pot-rim"></div><div class="pot-body"></div>';
+    gHtml+='<div class="plant-name-chip">'+cat.name+'</div>';
+    var lbl=stress==='ok'?'省 '+fmt(saved):('超 '+fmt(catSpent(curMonth,cat.id)-(settings.catBudgets[cat.id]||0)));
+    gHtml+='<div class="plant-spent-lbl" style="color:'+(stress==='ok'?'var(--mint)':'var(--amber)')+'">'+lbl+'</div>';
+    gHtml+='</div>';
+    var nextInfo='';
+    if(stress!=='ok'){nextInfo='⚠️ 控制支出，樹會復原';}
+    else if(stage<GROWTH.length-1){nextInfo='再省 NT$ '+fmt(XP[stage+1]-saved)+' 升級';}
+    else{nextInfo='✨ 滿級！';}
+    lHtml+='<div class="legend-card"><div class="legend-head"><div class="legend-emoji"><span class="material-icons" style="color:'+(stress==='ok'?cat.color:'var(--amber)')+'">'+cat.icon+'</span></div><div><div class="legend-name">'+cat.name+'樹</div><div class="legend-cat">第'+(stage+1)+'/20 &middot; '+g.name+(stressLabel?' &middot; <span style="color:var(--amber)">'+stressLabel+'</span>':'')+'</div></div></div><div style="font-size:10px;color:var(--subtle);">'+nextInfo+'</div></div>';
   }
   pg.innerHTML=gHtml;lg.innerHTML=lHtml;
 }
 
 function renderSettings(){
-  document.getElementById('setting-total').value=settings.totalBudget||'';
-  var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<div class="settings-row"><div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">'+c.icon+'</span>'+c.name+'</div></div><input type="number" class="settings-input" data-cat="'+c.id+'" value="'+(settings.catBudgets[c.id]||'')+'" placeholder="0" oninput="saveBudget()"></div>';}
-  document.getElementById('cat-budget-list').innerHTML=html;
+  var mhtml='';
+  for(var i=0;i<CATS.length;i++){
+    var c=CATS[i];
+    mhtml+='<div class="cat-manage-item" onclick="openCatModal(\''+c.id+'\')">';
+    mhtml+='<div class="cat-manage-icon" style="background:'+c.color+'22"><span class="material-icons" style="font-size:20px;color:'+c.color+'">'+c.icon+'</span></div>';
+    mhtml+='<div class="cat-manage-name">'+c.name+'</div>';
+    mhtml+='<span class="material-icons" style="color:var(--muted);font-size:18px;">chevron_right</span></div>';
+  }
+  document.getElementById('cat-manage-list').innerHTML=mhtml;
+
+  var bhtml='';for(var j=0;j<CATS.length;j++){var cc=CATS[j];bhtml+='<div class="settings-row"><div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;color:'+cc.color+'">'+cc.icon+'</span>'+cc.name+'</div></div><input type="number" class="settings-input" data-cat="'+cc.id+'" value="'+(settings.catBudgets[cc.id]||'')+'" placeholder="0" oninput="saveBudget()"></div>';}
+  document.getElementById('cat-budget-list').innerHTML=bhtml;
+
+  var total=0;for(var k in settings.catBudgets)total+=Number(settings.catBudgets[k])||0;
+  document.getElementById('setting-total-display').textContent='NT$ '+fmt(total);
+  var sui=document.getElementById('sheets-url-input');
+  if(sui) sui.value=settings.sheetsUrl||'';
 }
 function saveBudget(){
-  settings.totalBudget=Number(document.getElementById('setting-total').value)||0;
-  var inp=document.querySelectorAll('[data-cat]');for(var i=0;i<inp.length;i++)settings.catBudgets[inp[i].dataset.cat]=Number(inp[i].value)||0;
+  var inp=document.querySelectorAll('[data-cat]');
+  for(var i=0;i<inp.length;i++) settings.catBudgets[inp[i].dataset.cat]=Number(inp[i].value)||0;
+  settings.totalBudget=Object.values(settings.catBudgets).reduce(function(a,b){return a+b;},0);
+  var total=settings.totalBudget;
+  document.getElementById('setting-total-display').textContent='NT$ '+fmt(total);
   saveAll();
   renderHome();
   showToast('✅ 預算已保存');
 }
 
 function buildCatGrid(sel){var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<button class="cat-btn'+(c.id===sel?' selected':'')+'" data-catid="'+c.id+'" onclick="selectCat(this)"><span class="cat-e"><span class="material-icons">'+c.icon+'</span></span><span class="cat-n">'+c.name+'</span></button>';}document.getElementById('cat-grid').innerHTML=html;}
-function selectCat(btn){var bs=document.querySelectorAll('.cat-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('selected');btn.classList.add('selected');}
+function selectCat(btn){var bs=document.querySelectorAll('.cat-btn');for(var i=0;i<bs.length;i++)bs[i].classList.remove('selected');btn.classList.add('selected');renderPresets(btn.dataset.catid);updateModalHint(btn.dataset.catid);}
+function updateModalHint(catId){
+  var hint=document.getElementById('modal-budget-hint');if(!hint)return;
+  var now=new Date(),ym=curMonth,yp=Number(ym.split('-')[0]),mp=Number(ym.split('-')[1]);
+  var dim=new Date(yp,mp,0).getDate(),daysLeft=dim-now.getDate()+1;
+  var spent=monthSpent(ym),remain=settings.totalBudget-spent;
+  var perDay=daysLeft>0?Math.round(remain/daysLeft):0;
+  var sel=catId||(document.querySelector('.cat-btn.selected')||{dataset:{}}).dataset.catid;
+  var catPart='';
+  if(sel&&settings.catBudgets[sel]){
+    var catRemain=(settings.catBudgets[sel]||0)-catSpent(ym,sel);
+    catPart=' &middot; <span style="color:'+(catRemain>=0?'var(--mint)':'var(--red)')+'">'+(catRemain>=0?'這類剩 NT$ '+fmt(catRemain):'這類超 NT$ '+fmt(-catRemain))+'</span>';
+  }
+  if(remain<0){hint.innerHTML='<span style="color:var(--red)">⚠️ 本月已超支 NT$ '+fmt(-remain)+'</span>'+catPart;}
+  else{hint.innerHTML='今天建議花 ≤ <strong style="color:var(--mint)">NT$ '+fmt(perDay)+'</strong>（剩 '+daysLeft+' 天）'+catPart;}
+}
+
+function renderPresets(catId){
+  var presets=(settings.presets&&settings.presets[catId])||[];
+  var sec=document.getElementById('preset-section');
+  var chips=document.getElementById('preset-chips');
+  sec.style.display='block';
+  var html='';
+  for(var i=0;i<presets.length;i++){
+    var p=presets[i];
+    var lbl=p.note+(p.amount?' ('+fmt(p.amount)+')':'');
+    html+='<div class="preset-chip" onclick="applyPreset(\''+catId+'\','+i+')">';
+    html+=lbl;
+    html+='<span class="preset-chip-x" onclick="event.stopPropagation();deletePreset(\''+catId+'\','+i+')">×</span></div>';
+  }
+  html+='<button class="preset-add" onclick="addPreset(\''+catId+'\')"><span class="material-icons" style="font-size:14px;line-height:1;">add</span>新增常用</button>';
+  chips.innerHTML=html;
+}
+function applyPreset(catId,idx){
+  var p=((settings.presets||{})[catId]||[])[idx];
+  if(!p)return;
+  document.getElementById('note-input').value=p.note;
+  if(p.amount) document.getElementById('amount-input').value=p.amount;
+}
+function addPreset(catId){
+  var note=document.getElementById('note-input').value.trim();
+  var amount=parseFloat(document.getElementById('amount-input').value)||0;
+  if(!note){showToast('⚠️ 先填備註再新增常用');return;}
+  if(!settings.presets)settings.presets={};
+  if(!settings.presets[catId])settings.presets[catId]=[];
+  var dup=settings.presets[catId].some(function(p){return p.note===note;});
+  if(dup){showToast('已有此常用');return;}
+  settings.presets[catId].push({note:note,amount:amount||null});
+  saveAll();renderPresets(catId);
+  showToast('✅ 已加入常用');
+}
+function deletePreset(catId,idx){
+  if(!settings.presets||!settings.presets[catId])return;
+  settings.presets[catId].splice(idx,1);
+  saveAll();renderPresets(catId);
+}
+var confirmPending=false;
 function openModal(){
-  editId=null;
+  editId=null;confirmPending=false;
   document.getElementById('modal-title').textContent='新增記錄';
   document.getElementById('amount-input').value='';document.getElementById('note-input').value='';
   document.getElementById('delete-btn').style.display='none';
   document.getElementById('date-input').value=new Date().toISOString().split('T')[0];
-  buildCatGrid('food');document.getElementById('modal').classList.add('open');
+  buildCatGrid('food');renderPresets('food');updateModalHint('food');
+  document.getElementById('modal').classList.add('open');
   setTimeout(function(){document.getElementById('amount-input').focus();},300);
 }
 function openEditModal(id){
@@ -511,39 +925,73 @@ function openEditModal(id){
   document.getElementById('modal-title').textContent='編輯記錄';
   document.getElementById('amount-input').value=t.amount;document.getElementById('note-input').value=t.note||'';
   document.getElementById('date-input').value=t.date;document.getElementById('delete-btn').style.display='block';
-  buildCatGrid(t.cat);document.getElementById('modal').classList.add('open');
+  buildCatGrid(t.category);renderPresets(t.category);document.getElementById('modal').classList.add('open');
 }
 function overlayClose(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
+function syncToSheets(record){
+  var url=settings.sheetsUrl;
+  if(!url){showToast('⚠️ 未設定試算表網址');return;}
+  var catName=(CAT_MAP[record.category]&&CAT_MAP[record.category].name)||record.category;
+  fetch('/api/sync-to-sheets',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({sheetsUrl:url,date:record.date,catName:catName,note:record.note||'',amount:record.amount,userEmail:curUser?curUser.email:'未知'})
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d&&d.ok){showToast('✅ 已同步到試算表');}
+    else{showToast('❌ 同步失敗: '+(d&&d.debug?d.debug.substring(0,30):'unknown'));}
+  }).catch(function(e){showToast('❌ 網路錯誤: '+e.message);});
+}
+
 async function saveTxn(){
   var amount=parseFloat(document.getElementById('amount-input').value);
   if(!amount||amount<=0){showToast('⚠️ 請輸入金額');return;}
   var selBtn=document.querySelector('.cat-btn.selected'),cat=selBtn?selBtn.dataset.catid:'other';
   var note=document.getElementById('note-input').value.trim();
   var date=document.getElementById('date-input').value||new Date().toISOString().split('T')[0];
-  var nid=editId||(Date.now().toString(36)+Math.random().toString(36).slice(2));
-  var record={id:nid,user_id:curUser.id,amount:amount,cat:cat,note:note,date:date};
-  try{
-    if(editId){
-      await supabase.from('transactions').update(record).eq('id',editId);
-    }else{
-      await supabase.from('transactions').insert([record]);
+  // 預算警示
+  if(!editId){
+    var catBudget=settings.catBudgets[cat]||0;
+    var curCatSpent=catSpent(curMonth,cat);
+    if(catBudget>0&&curCatSpent+amount>catBudget&&!confirmPending){
+      var over=Math.round(curCatSpent+amount-catBudget);
+      var cn=(CAT_MAP[cat]&&CAT_MAP[cat].name)||cat;
+      confirmPending=true;setTimeout(function(){confirmPending=false;},3000);
+      showToast('⚠️ '+cn+'將超預算 NT$ '+fmt(over)+'，再按一次確認');return;
     }
-    await loadUserData();
-    showToast(editId?'✅ 已更新':'✅ 已新增');
-    document.getElementById('modal').classList.remove('open');
-    renderHome();
-  }catch(err){showToast('⚠️ 保存失敗');}
+  }
+  confirmPending=false;
+  var uid=curUser?curUser.id:'local';
+  var nid=editId||(Date.now().toString(36)+Math.random().toString(36).slice(2));
+  var record={id:nid,user_id:uid,amount:amount,category:cat,note:note,date:date};
+  if(editId){
+    for(var i=0;i<txns.length;i++){if(txns[i].id===editId){txns[i]=record;break;}}
+  }else{
+    txns.push(record);
+    syncToSheets(record);
+  }
+  saveAll();
+  if(curUser&&sbClient){
+    try{
+      if(editId){await sbClient.from('transactions').update(record).eq('id',editId);}
+      else{await sbClient.from('transactions').insert([record]);}
+    }catch(err){console.error('sync error:',err);}
+  }
+  showToast(editId?'✅ 已更新':'✅ 已新增');
+  document.getElementById('modal').classList.remove('open');
+  renderHome();
 }
 
 async function deleteTxn(){
   if(!editId||!confirm('確定刪除？'))return;
-  try{
-    await supabase.from('transactions').delete().eq('id',editId);
-    await loadUserData();
-    document.getElementById('modal').classList.remove('open');
-    renderHome();
-    showToast('🗑️ 已刪除');
-  }catch(err){showToast('⚠️ 刪除失敗');}
+  txns=txns.filter(function(t){return t.id!==editId;});
+  saveAll();
+  if(curUser&&sbClient){
+    try{await sbClient.from('transactions').delete().eq('id',editId);}
+    catch(err){console.error('sync error:',err);}
+  }
+  document.getElementById('modal').classList.remove('open');
+  renderHome();
+  showToast('🗑️ 已刪除');
 }
 function exportData(){
   var blob=new Blob([JSON.stringify({txns:txns,settings:settings},null,2)],{type:'application/json'});
@@ -557,22 +1005,105 @@ function importData(e){
       var d=JSON.parse(ev.target.result);
       if(!d.txns||!Array.isArray(d.txns))throw new Error('格式錯誤');
       var count=0;
+      var uid=curUser?curUser.id:'local';
       for(var i=0;i<d.txns.length;i++){
-        var t=d.txns[i],exists=txns.some(x=>x.id===t.id);
-        if(!exists){txns.push(t);count++;}
+        var t=d.txns[i],exists=txns.some(function(x){return x.id===t.id;});
+        if(!exists){txns.push({...t,user_id:t.user_id||uid});count++;}
       }
-      if(d.settings){if(d.settings.totalBudget)settings.totalBudget=d.settings.totalBudget;if(d.settings.catBudgets)for(var k in d.settings.catBudgets)settings.catBudgets[k]=d.settings.catBudgets[k];}
+      if(d.settings){
+        if(d.settings.totalBudget)settings.totalBudget=d.settings.totalBudget;
+        if(d.settings.catBudgets)for(var k in d.settings.catBudgets)settings.catBudgets[k]=d.settings.catBudgets[k];
+        if(d.settings.cats&&d.settings.cats.length){settings.cats=d.settings.cats;rebuildCats();}
+      }
       saveAll();renderHome();renderSettings();showToast('✅ 匯入 '+count+' 筆');
+      // 登入中 → 同步到 Supabase
+      if(curUser&&sbClient&&count>0){
+        var uid2=curUser.id;
+        var toUp=d.txns.map(function(t){return Object.assign({},t,{user_id:uid2});});
+        sbClient.from('transactions').upsert(toUp).catch(function(){});
+      }
     }catch(err){showToast('⚠️ 匯入失敗');}
     e.target.value='';
   };
   reader.readAsText(file);
 }
+async function forceCloudSync(){
+  var st=document.getElementById('sync-status');
+  if(!curUser||!sbClient){if(st)st.textContent='⚠️ 請先登入';return;}
+  if(st)st.textContent='同步中…';
+  try{
+    var payload=txns.map(function(t){return Object.assign({},t,{user_id:curUser.id});});
+    var {error}=await sbClient.from('transactions').upsert(payload,{onConflict:'id'});
+    if(error)throw error;
+    var {data:chk}=await sbClient.from('transactions').select('id',{count:'exact'}).eq('user_id',curUser.id);
+    var cnt=chk?chk.length:0;
+    if(st)st.textContent='✅ 雲端現有 '+cnt+' 筆（本地 '+txns.length+' 筆）';
+    showToast('✅ 同步完成 '+cnt+' 筆');
+  }catch(e){if(st)st.textContent='❌ '+e.message;showToast('❌ 同步失敗');}
+}
 function resetData(){
   if(!confirm('確定清除所有資料？'))return;
-  txns=[];settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000}};
-  saveAll();renderHome();showToast('🗑️ 已清除');
+  txns=[];settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000},cats:null,presets:{},carryOver:0,lastSettledWeek:null};
+  rebuildCats();saveAll();renderSettings();renderHome();showToast('🗑️ 已清除');
 }
+function resetCatsToDefault(){
+  if(!confirm('恢復預設類別？自訂類別將被移除。'))return;
+  settings.cats=null;
+  settings.catBudgets={food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000};
+  settings.totalBudget=16000;
+  rebuildCats();saveAll();renderSettings();showToast('已恢復預設類別');
+}
+var editCatId=null;
+function openCatModal(id){
+  editCatId=id;
+  var cat=id?CAT_MAP[id]:null;
+  document.getElementById('cat-modal-title').textContent=id?'編輯類別':'新增類別';
+  document.getElementById('cat-name-input').value=cat?cat.name:'';
+  document.getElementById('cat-delete-btn').style.display=id?'block':'none';
+  var selColor=cat?cat.color:CAT_COLORS[0];
+  var selIcon=cat?cat.icon:CAT_ICONS[0];
+  var ch='';for(var i=0;i<CAT_COLORS.length;i++){ch+='<div class="color-dot'+(CAT_COLORS[i]===selColor?' selected':'')+'" style="background:'+CAT_COLORS[i]+'" data-color="'+CAT_COLORS[i]+'" onclick="selectCatColor(this)"></div>';}
+  document.getElementById('cat-color-picker').innerHTML=ch;
+  var ih='';for(var j=0;j<CAT_ICONS.length;j++){ih+='<div class="icon-opt'+(CAT_ICONS[j]===selIcon?' selected':'')+'" data-icon="'+CAT_ICONS[j]+'" onclick="selectCatIcon(this)"><span class="material-icons">'+CAT_ICONS[j]+'</span></div>';}
+  document.getElementById('cat-icon-picker').innerHTML=ih;
+  document.getElementById('cat-modal').classList.add('open');
+  setTimeout(function(){document.getElementById('cat-name-input').focus();},200);
+}
+function closeCatModal(){document.getElementById('cat-modal').classList.remove('open');}
+function selectCatColor(el){var ds=document.querySelectorAll('.color-dot');for(var i=0;i<ds.length;i++)ds[i].classList.remove('selected');el.classList.add('selected');}
+function selectCatIcon(el){var ds=document.querySelectorAll('.icon-opt');for(var i=0;i<ds.length;i++)ds[i].classList.remove('selected');el.classList.add('selected');}
+function saveCatEdit(){
+  var name=document.getElementById('cat-name-input').value.trim();
+  if(!name){showToast('⚠️ 請輸入名稱');return;}
+  var selColor=document.querySelector('.color-dot.selected');
+  var selIcon=document.querySelector('.icon-opt.selected');
+  var color=selColor?selColor.dataset.color:CAT_COLORS[0];
+  var icon=selIcon?selIcon.dataset.icon:CAT_ICONS[0];
+  if(editCatId){
+    var cat=CAT_MAP[editCatId];
+    if(cat){cat.name=name;cat.color=color;cat.icon=icon;cat.emoji=icon;}
+  }else{
+    var newId='cat_'+Date.now().toString(36);
+    var newCat={id:newId,name:name,icon:icon,emoji:icon,color:color};
+    CATS.push(newCat);
+    settings.catBudgets[newId]=0;
+  }
+  settings.cats=CATS.slice();
+  rebuildCats();saveAll();renderSettings();renderHome();
+  closeCatModal();
+  showToast(editCatId?'✅ 類別已更新':'✅ 類別已新增');
+}
+function confirmDeleteCat(){
+  if(!editCatId)return;
+  if(!confirm('刪除類別？相關記錄保留但類別顯示為其他。'))return;
+  CATS=CATS.filter(function(c){return c.id!==editCatId;});
+  delete settings.catBudgets[editCatId];
+  settings.cats=CATS.slice();
+  rebuildCats();saveAll();renderSettings();renderHome();
+  closeCatModal();
+  showToast('🗑️ 類別已刪除');
+}
+
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2400);}
 
 // 初始化
@@ -581,28 +1112,32 @@ async function initApp(){
   curMonth=n.getFullYear()+'-'+(m<10?'0'+m:''+m);
 
   // 初始化 Supabase
-  if(!supabase && window.supabase){
-    const {createClient}=window.supabase;
-    supabase=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  if(!sbClient && window.supabase){
+    var sdk=window.supabase;
+    var createClient=sdk.createClient||sdk.default?.createClient;
+    if(createClient) sbClient=createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
   }
 
-  if(!supabase){setTimeout(initApp,100);return;}
+  if(!sbClient){setTimeout(initApp,100);return;}
+
+  // 先從 localStorage 讀取（讓頁面有初始資料）
+  loadLocalData();
+  tryWeeklySettlement();
 
   try{
     // 檢查登入狀態
-    const {data:{session}}=await supabase.auth.getSession();
+    const {data:{session}}=await sbClient.auth.getSession();
     if(session && session.user){
       curUser=session.user;
       await loadUserData();
       document.getElementById('login-screen').style.display='none';
       document.getElementById('app').classList.add('active');
+      renderHome();
       showToast('歡迎回來 🌱');
-    }else{
-      document.getElementById('login-hint').textContent='第一次登入會建立帳號';
     }
 
     // 監聽登入狀態
-    supabase.auth.onAuthStateChange(async (event,session)=>{
+    sbClient.auth.onAuthStateChange(async (event,session)=>{
       if(event==='SIGNED_IN' && session.user){
         curUser=session.user;
         await loadUserData();
@@ -619,14 +1154,7 @@ async function initApp(){
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-  var n=new Date(),m=n.getMonth()+1;
-  curMonth=n.getFullYear()+'-'+(m<10?'0'+m:''+m);
-
-  // 臨時：跳過認證進應用（後續修 OAuth）
-  curUser={id:'user-demo',email:'demo@example.com',user_metadata:{name:'Demo User'}};
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').classList.add('active');
-  renderHome();
+  initApp();
 });
 </script>
 </body>
