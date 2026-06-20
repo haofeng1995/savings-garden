@@ -345,6 +345,18 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
           <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;">upload</span>匯入資料</div></div>
           <span style="color:var(--subtle)">›</span>
         </div>
+      </div>
+      <div class="sec-title">每月目標</div>
+      <div class="settings-card">
+        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px;">
+          <div class="settings-label">設定本月支出目標（選填）</div>
+          <div style="display:flex;gap:6px;width:100%;">
+            <input type="number" id="goal-input" placeholder="目標金額 NT$" style="flex:1;background:var(--surface2);border:0.5px solid var(--border);border-radius:10px;padding:10px 12px;font-family:var(--font);font-size:12px;color:var(--text);outline:none;" oninput="settings.monthlyGoal=Number(this.value)||0;saveAll();renderSettings();">
+            <button onclick="settings.monthlyGoal=0;document.getElementById('goal-input').value='';saveAll();renderSettings();showToast('⚠️ 目標已清除');" style="background:var(--red);border:none;border-radius:10px;padding:10px 12px;color:#fff;cursor:pointer;font-size:12px;font-weight:600;">清除</button>
+          </div>
+        </div>
+      </div>
+      <div class="settings-card">
         <div class="settings-row" onclick="toggleTheme()" style="cursor:pointer">
           <div><div class="settings-label"><span class="material-icons" style="vertical-align:middle;margin-right:6px;font-size:20px;" id="theme-icon">light_mode</span><span id="theme-label">淺色模式</span></div></div>
           <span style="color:var(--subtle)">›</span>
@@ -478,7 +490,7 @@ var XP=[0,200,500,1000,2000,3500,5500,8000,11000,15000,20000,27000,35000,45000,5
 function getStage(total){var s=0;for(var i=GROWTH.length-1;i>=0;i--){if(total>=XP[i]){s=i;break;}}return s;}
 function getXPInfo(total){var s=getStage(total);if(s>=GROWTH.length-1)return {pct:100,stage:s};var cur=XP[s],next=XP[s+1];return {pct:Math.round((total-cur)/(next-cur)*100),stage:s};}
 
-var txns=[],settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000},cats:null,presets:{},carryOver:0,lastSettledWeek:null,recurringTxns:[],sheetsUrl:'https://script.google.com/macros/s/AKfycbywXZhMV1ePZWUn_1R_QVQVptJGpWlT9n4AJYZB1lnyhWvjUz9RUazETGx0UCGg2FjPyQ/exec'};
+var txns=[],settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000},cats:null,presets:{},carryOver:0,lastSettledWeek:null,recurringTxns:[],monthlyGoal:0,sheetsUrl:'https://script.google.com/macros/s/AKfycbywXZhMV1ePZWUn_1R_QVQVptJGpWlT9n4AJYZB1lnyhWvjUz9RUazETGx0UCGg2FjPyQ/exec'};
 var curUser=null,curMonth='',editId=null,donutChart=null,trendChart=null;
 
 function fmt(n){return Math.round(n).toLocaleString('zh-TW');}
@@ -790,6 +802,14 @@ function renderHome(){
       else{bc.textContent='';}
     }else{bc.textContent='';}
   }
+  // 月度目標進度
+  if(isCurrentMonth&&settings.monthlyGoal>0){
+    var goalPct=Math.min(100,Math.round(spent/settings.monthlyGoal*100));
+    var goalColor=goalPct>=100?'var(--red)':goalPct>=80?'var(--amber)':'var(--mint)';
+    var goalHtml='<div class="budget-card" style="background:rgba(106,184,168,0.08);border:0.5px solid var(--border2);"><div class="bcard-label">本月目標</div><div class="bcard-amount" style="color:'+goalColor+'">'+goalPct+'%</div><div class="prog-track"><div class="prog-fill" style="width:'+goalPct+'%;background:'+goalColor+'"></div></div><div class="prog-labels"><span>NT$ '+fmt(spent)+' / '+fmt(settings.monthlyGoal)+'</span><span style="color:'+(spent<=settings.monthlyGoal?'var(--mint)':'var(--red)')+';">'+(spent<=settings.monthlyGoal?'✅ 在目標內':'⚠️ 已超目標')+'</span></div></div>';
+    document.getElementById('week-card-wrap').innerHTML=goalHtml+'<div id="week-card-after"></div>';
+  }else{document.getElementById('week-card-wrap').innerHTML='<div id="week-card-after"></div>';}
+
   // 週進度卡片
   var wBudget=getWeeklyBudget(),wSpent=weekSpent(),wRemain=wBudget-wSpent;
   var wPct=wBudget>0?Math.min(100,Math.round(wSpent/wBudget*100)):0;
@@ -805,7 +825,9 @@ function renderHome(){
   if(settings.carryOver>0)wHtml+='<div style="font-size:10px;color:var(--muted);margin-top:4px;">含上週債務 NT$ '+fmt(settings.carryOver)+'</div>';
   wHtml+='<div class="burn-row"><span class="material-icons" style="font-size:14px;">local_fire_department</span>本月燃燒率：<strong style="color:'+burnColor+'">'+(burn.ahead?'省錢中':'超速')+'  '+(burn.diff)+'%</strong></div>';
   wHtml+='</div>';
-  document.getElementById('week-card-wrap').innerHTML=wHtml;
+  var after=document.getElementById('week-card-after');
+  if(after) after.innerHTML=wHtml;
+  else document.getElementById('week-card-wrap').innerHTML+=wHtml;
 
   var mt=monthTxns(ym);mt.sort(function(a,b){return a.date<b.date?1:-1;});
   var list=document.getElementById('txn-list');
@@ -891,6 +913,8 @@ function renderSettings(){
   document.getElementById('setting-total-display').textContent='NT$ '+fmt(total);
   var sui=document.getElementById('sheets-url-input');
   if(sui) sui.value=settings.sheetsUrl||'';
+  var gi=document.getElementById('goal-input');
+  if(gi) gi.value=settings.monthlyGoal||'';
   renderRecurringTxns();
 }
 function renderRecurringTxns(){
