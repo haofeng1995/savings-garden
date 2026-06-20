@@ -152,13 +152,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div id="login-screen">
   <div class="login-logo">🌳</div>
   <div class="login-title">省錢花園</div>
-  <div class="login-sub">登入帳號<br>資料存在雲端</div>
+  <div class="login-sub">用 GitHub 登入<br>資料存在雲端</div>
   <div class="login-card">
-    <label class="login-label">Email</label>
-    <input type="email" class="login-input" id="login-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')doLogin()">
-    <label class="login-label">密碼</label>
-    <input type="password" class="login-input" id="login-password" placeholder="至少6碼" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">進入花園 🌱</button>
+    <button class="login-btn" onclick="loginWithGitHub()">🔐 用 GitHub 登入</button>
     <div class="login-msg" id="login-msg"></div>
     <div class="login-hint">第一次登入會自動建立帳號</div>
   </div>
@@ -336,74 +332,27 @@ function monthSpent(ym){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)s+=
 function catSpent(ym,cid){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)if(mt[i].cat===cid)s+=Number(mt[i].amount);return s;}
 function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].cat===cid)s+=Number(txns[i].amount);return s;}
 
-// AUTH - Email/Password (REST API)
-async function doLogin(){
+// AUTH - GitHub OAuth
+async function loginWithGitHub(){
   var msg=document.getElementById('login-msg');
-  var email=document.getElementById('login-email').value.trim();
-  var password=document.getElementById('login-password').value;
-  msg.textContent='';
-
-  if(!email||!password){
-    msg.textContent='請輸入 email 和密碼';
-    return;
-  }
-
-  msg.textContent='登入中...';
+  msg.textContent='重導向到 GitHub...';
 
   try{
-    console.log('Attempting login...');
-    // 先試登入
-    var url=SUPABASE_URL+'/auth/v1/token?grant_type=password';
-    var res=await fetch(url,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
-      body:JSON.stringify({email,password})
+    // 用 Supabase REST API 取得 GitHub OAuth URL
+    var url=SUPABASE_URL+'/auth/v1/oauth2/authorize?provider=github&client_id='+SUPABASE_ANON_KEY+'&redirect_to='+encodeURIComponent(window.location.origin);
+
+    // 改用簡單的方式：直接構建 OAuth URL
+    var params=new URLSearchParams({
+      provider:'github',
+      redirect_to:window.location.origin,
+      skip_browser_redirect:'false'
     });
-    var data=await res.json();
-    console.log('Login response:', res.status, data);
 
-    if(!res.ok){
-      var errMsg=data.message||data.error||'Unknown error';
-      if(errMsg.includes('Invalid login') || errMsg.includes('User not found')){
-        console.log('User not found, creating account...');
-        // 新用戶，建立帳號
-        var signUpUrl=SUPABASE_URL+'/auth/v1/signup';
-        var signUpRes=await fetch(signUpUrl,{
-          method:'POST',
-          headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
-          body:JSON.stringify({email,password})
-        });
-        var signUpData=await signUpRes.json();
-        console.log('Signup response:', signUpRes.status, signUpData);
-        if(!signUpRes.ok) throw new Error('建立帳號失敗: '+signUpData.message);
-
-        // 再登入一次
-        var retryRes=await fetch(url,{
-          method:'POST',
-          headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON_KEY},
-          body:JSON.stringify({email,password})
-        });
-        var retryData=await retryRes.json();
-        if(!retryRes.ok) throw new Error('登入失敗: '+retryData.message);
-        data=retryData;
-      }else{
-        throw new Error(errMsg);
-      }
-    }
-
-    // 保存 token
-    localStorage.setItem('sb_token',data.access_token);
-    localStorage.setItem('sb_user',JSON.stringify(data.user));
-    curUser=data.user;
-
-    msg.textContent='✅ 登入成功！';
-    setTimeout(function(){
-      document.getElementById('login-screen').style.display='none';
-      document.getElementById('app').classList.add('active');
-      renderHome();
-    },500);
+    var oauthUrl=SUPABASE_URL+'/auth/v1/authorize?'+params.toString();
+    console.log('Redirecting to:', oauthUrl);
+    window.location.href=oauthUrl;
   }catch(err){
-    console.error('Auth error:', err);
+    console.error('OAuth error:', err);
     msg.textContent='❌ '+err.message;
   }
 }
@@ -665,15 +614,57 @@ async function initApp(){
   }catch(err){console.error('Init error:',err);}
 }
 
-document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener('DOMContentLoaded',async function(){
   var n=new Date(),m=n.getMonth()+1;
   curMonth=n.getFullYear()+'-'+(m<10?'0'+m:''+m);
 
-  // 臨時：跳過認證直接進應用
-  curUser={id:'test-user',email:'test@example.com'};
-  document.getElementById('login-screen').style.display='none';
-  document.getElementById('app').classList.add('active');
-  renderHome();
+  // 檢查 URL 中的 token（GitHub OAuth 回調）
+  var hash=window.location.hash;
+  if(hash.includes('access_token')){
+    console.log('OAuth callback detected');
+    var params=new URLSearchParams(hash.substring(1));
+    var token=params.get('access_token');
+    if(token){
+      localStorage.setItem('sb_token',token);
+      // 清除 hash
+      window.history.replaceState({}, document.title, window.location.pathname);
+      // 取得用戶信息
+      try{
+        var userRes=await fetch(SUPABASE_URL+'/auth/v1/user',{
+          headers:{'Authorization':'Bearer '+token,'apikey':SUPABASE_ANON_KEY}
+        });
+        var user=await userRes.json();
+        if(userRes.ok){
+          curUser=user;
+          document.getElementById('login-screen').style.display='none';
+          document.getElementById('app').classList.add('active');
+          renderHome();
+          return;
+        }
+      }catch(err){console.error(err);}
+    }
+  }
+
+  // 檢查本地 token
+  var token=localStorage.getItem('sb_token');
+  if(token){
+    try{
+      var res=await fetch(SUPABASE_URL+'/auth/v1/user',{
+        headers:{'Authorization':'Bearer '+token,'apikey':SUPABASE_ANON_KEY}
+      });
+      if(res.ok){
+        var user=await res.json();
+        curUser=user;
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').classList.add('active');
+        renderHome();
+        return;
+      }
+    }catch(err){console.error(err);}
+  }
+
+  // 沒有認證，顯示登入畫面
+  console.log('No valid session, showing login');
 });
 </script>
 </body>
