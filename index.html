@@ -665,7 +665,16 @@ async function initApp(){
   }catch(err){console.error('Init error:',err);}
 }
 
-document.addEventListener('DOMContentLoaded',initApp);
+document.addEventListener('DOMContentLoaded',function(){
+  var n=new Date(),m=n.getMonth()+1;
+  curMonth=n.getFullYear()+'-'+(m<10?'0'+m:''+m);
+
+  // 臨時：跳過認證直接進應用
+  curUser={id:'test-user',email:'test@example.com'};
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('active');
+  renderHome();
+});
 </script>
 </body>
 </html>
