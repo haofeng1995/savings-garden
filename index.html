@@ -137,9 +137,13 @@ html.dark-mode .bcard-sub{color:rgba(255,255,255,0.5);}
 .garden-scene{margin:0 16px 14px;border-radius:20px;overflow:hidden;border:0.5px solid rgba(52,211,153,0.15);}
 .garden-sky-bg{height:80px;background:linear-gradient(180deg,#050d1f 0%,#0a1a35 70%,#0d2010 100%);}
 .garden-ground-bg{background:linear-gradient(180deg,#1e4a0f 0%,#163508 100%);padding:16px 8px 20px;}
-.plants-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.plant-pot-cell{display:flex;flex-direction:column;align-items:center;cursor:pointer;}
-.plant-visual{position:relative;width:60px;height:70px;display:flex;align-items:flex-end;justify-content:center;font-size:40px;margin-bottom:3px;}
+.plants-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:linear-gradient(180deg,rgba(106,184,168,0.08) 0%,rgba(106,184,168,0.02) 100%);border-radius:20px;padding:16px;margin-bottom:12px;}
+html.dark-mode .plants-grid{background:linear-gradient(180deg,rgba(94,204,192,0.1) 0%,rgba(94,204,192,0.02) 100%);}
+.plant-pot-cell{display:flex;flex-direction:column;align-items:center;cursor:pointer;padding:12px;border-radius:14px;transition:all .2s;background:transparent;}
+.plant-pot-cell:active{background:rgba(0,0,0,0.03);transform:scale(0.95);}
+html.dark-mode .plant-pot-cell:active{background:rgba(255,255,255,0.05);}
+.plant-visual{position:relative;width:60px;height:70px;display:flex;align-items:flex-end;justify-content:center;font-size:40px;margin-bottom:3px;animation:sway 3s ease-in-out infinite;filter:drop-shadow(0 0 8px rgba(106,184,168,0.3));transition:filter .3s;}
+@keyframes sway{0%,100%{transform:rotate(0deg);}25%{transform:rotate(1deg);}75%{transform:rotate(-1deg);}}
 .pot-rim{width:28px;height:5px;background:var(--amber);border-radius:3px;z-index:3;}
 .pot-body{width:24px;height:12px;background:linear-gradient(180deg,var(--red),var(--amber));border-radius:0 0 6px 6px;z-index:3;}
 .plant-name-chip{font-size:9px;font-weight:800;color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.4);border-radius:6px;padding:2px 6px;max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center;}
