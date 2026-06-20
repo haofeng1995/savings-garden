@@ -7,6 +7,7 @@
 <title>省錢花園</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --bg:#0a0e1a;--surface:#131929;--surface2:#1c2538;--surface3:#222d40;
@@ -151,15 +152,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div id="login-screen">
   <div class="login-logo">🌳</div>
   <div class="login-title">省錢花園</div>
-  <div class="login-sub">本地版本 - 資料存在你的裝置<br>隨時可備份下載</div>
+  <div class="login-sub">用 Gmail 登入<br>資料存在雲端</div>
   <div class="login-card">
-    <label class="login-label">用戶名稱</label>
-    <input type="text" class="login-input" id="username-input" placeholder="你的名字" onkeydown="if(event.key==='Enter')doLogin()">
-    <label class="login-label">密碼</label>
-    <input type="password" class="login-input" id="password-input" placeholder="至少4碼" onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="login-btn" onclick="doLogin()">進入花園 🌱</button>
+    <button class="login-btn" onclick="loginWithGoogle()">🔐 用 Google 登入</button>
     <div class="login-msg" id="login-msg"></div>
-    <div class="login-hint">沒有帳號會自動註冊</div>
+    <div class="login-hint" id="login-hint"></div>
   </div>
 </div>
 
@@ -281,6 +278,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 <div id="toast"></div>
 
 <script>
+// Supabase 初始化
+const SUPABASE_URL='https://pujiwylhqbrtwcbtyvee.supabase.co';
+const SUPABASE_ANON_KEY='sb_publishable_xBLJG1_en-A_7KokEr5WAg_uX-Aq0lB';
+const { createClient } = window.supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 var CATS=[
   {id:'food',name:'餐費',emoji:'🍜',color:'#f97316'},
   {id:'transit',name:'交通',emoji:'🚇',color:'#38bdf8'},
@@ -330,61 +333,66 @@ function monthSpent(ym){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)s+=
 function catSpent(ym,cid){var mt=monthTxns(ym),s=0;for(var i=0;i<mt.length;i++)if(mt[i].cat===cid)s+=Number(mt[i].amount);return s;}
 function allTimeCatSpent(cid){var s=0;for(var i=0;i<txns.length;i++)if(txns[i].cat===cid)s+=Number(txns[i].amount);return s;}
 
-// AUTH
-function doLogin(){
-  var username=document.getElementById('username-input').value.trim();
-  var password=document.getElementById('password-input').value;
+// AUTH - Google OAuth
+async function loginWithGoogle(){
   var msg=document.getElementById('login-msg');
-  msg.textContent='';
-  if(!username||!password){msg.textContent='請輸入用戶名和密碼';return;}
-  var userKey='user:'+username;
-  var stored=localStorage.getItem(userKey);
-  if(stored){
-    var u=JSON.parse(stored);
-    if(u.password===password){
-      curUser=username;
-      loadUserData();
-      document.getElementById('login-screen').style.display='none';
-      document.getElementById('app').classList.add('active');
-      showToast('歡迎回來 🌱');
-    }else{
-      msg.textContent='密碼錯誤';
-    }
-  }else{
-    // 新用戶自動註冊
-    var newUser={username:username,password:password};
-    localStorage.setItem(userKey,JSON.stringify(newUser));
-    curUser=username;
-    txns=[];
-    settings={totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000}};
-    saveAll();
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').classList.add('active');
-    showToast('✅ 新帳號建立！');
+  msg.textContent='登入中...';
+  try{
+    const {data,error}=await supabase.auth.signInWithOAuth({
+      provider:'google',
+      options:{redirectTo:window.location.origin}
+    });
+    if(error) throw error;
+  }catch(err){
+    msg.textContent='登入失敗: '+err.message;
   }
 }
-function doLogout(){
+
+async function doLogout(){
+  await supabase.auth.signOut();
   curUser=null;
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('app').classList.remove('active');
-  document.getElementById('username-input').value='';
-  document.getElementById('password-input').value='';
   showToast('已登出');
 }
 
-function loadUserData(){
-  var key='data:'+curUser;
-  var stored=localStorage.getItem(key);
-  if(stored){
-    var d=JSON.parse(stored);
-    txns=d.txns||[];
-    settings=d.settings||{totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000}};
-  }
+async function loadUserData(){
+  if(!curUser) return;
+  try{
+    const {data,error}=await supabase
+      .from('user_settings')
+      .select('*')
+      .eq('user_id',curUser.id)
+      .single();
+    if(data){
+      settings=data.cat_budgets?{totalBudget:data.total_budget||20000,catBudgets:data.cat_budgets}:{totalBudget:20000,catBudgets:{food:5000,transit:2000,shop:3000,fun:2000,health:2000,other:2000}};
+    }
+
+    const {data:txnData,error:txnErr}=await supabase
+      .from('transactions')
+      .select('*')
+      .eq('user_id',curUser.id)
+      .order('date',{ascending:false});
+    if(txnData) txns=txnData;
+  }catch(err){console.error(err);}
 }
-function saveAll(){
-  if(!curUser)return;
-  var key='data:'+curUser;
-  localStorage.setItem(key,JSON.stringify({txns:txns,settings:settings}));
+
+async function saveAll(){
+  if(!curUser) return;
+  try{
+    await supabase
+      .from('user_settings')
+      .upsert({user_id:curUser.id,total_budget:settings.totalBudget,cat_budgets:settings.catBudgets,updated_at:new Date().toISOString()})
+      .eq('user_id',curUser.id);
+
+    for(var i=0;i<txns.length;i++){
+      var t=txns[i];
+      if(t.user_id===undefined) t.user_id=curUser.id;
+    }
+    await supabase
+      .from('transactions')
+      .upsert(txns.map(t=>({...t,user_id:curUser.id})));
+  }catch(err){console.error(err);}
 }
 
 function showScreen(name,btn){
@@ -468,7 +476,9 @@ function renderSettings(){
 function saveBudget(){
   settings.totalBudget=Number(document.getElementById('setting-total').value)||0;
   var inp=document.querySelectorAll('[data-cat]');for(var i=0;i<inp.length;i++)settings.catBudgets[inp[i].dataset.cat]=Number(inp[i].value)||0;
-  saveAll();renderHome();
+  saveAll();
+  renderHome();
+  showToast('✅ 預算已保存');
 }
 
 function buildCatGrid(sel){var html='';for(var i=0;i<CATS.length;i++){var c=CATS[i];html+='<button class="cat-btn'+(c.id===sel?' selected':'')+'" data-catid="'+c.id+'" onclick="selectCat(this)"><span class="cat-e">'+c.emoji+'</span><span class="cat-n">'+c.name+'</span></button>';}document.getElementById('cat-grid').innerHTML=html;}
@@ -491,20 +501,36 @@ function openEditModal(id){
   buildCatGrid(t.cat);document.getElementById('modal').classList.add('open');
 }
 function overlayClose(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
-function saveTxn(){
+async function saveTxn(){
   var amount=parseFloat(document.getElementById('amount-input').value);
   if(!amount||amount<=0){showToast('⚠️ 請輸入金額');return;}
   var selBtn=document.querySelector('.cat-btn.selected'),cat=selBtn?selBtn.dataset.catid:'other';
   var note=document.getElementById('note-input').value.trim();
   var date=document.getElementById('date-input').value||new Date().toISOString().split('T')[0];
   var nid=editId||(Date.now().toString(36)+Math.random().toString(36).slice(2));
-  var record={id:nid,amount:amount,cat:cat,note:note,date:date};
-  if(editId){for(var i=0;i<txns.length;i++){if(txns[i].id===editId){txns[i]=record;break;}}}else{txns.unshift(record);}
-  saveAll();showToast(editId?'✅ 已更新':'✅ 已新增');document.getElementById('modal').classList.remove('open');renderHome();
+  var record={id:nid,user_id:curUser.id,amount:amount,cat:cat,note:note,date:date};
+  try{
+    if(editId){
+      await supabase.from('transactions').update(record).eq('id',editId);
+    }else{
+      await supabase.from('transactions').insert([record]);
+    }
+    await loadUserData();
+    showToast(editId?'✅ 已更新':'✅ 已新增');
+    document.getElementById('modal').classList.remove('open');
+    renderHome();
+  }catch(err){showToast('⚠️ 保存失敗');}
 }
-function deleteTxn(){
+
+async function deleteTxn(){
   if(!editId||!confirm('確定刪除？'))return;
-  txns=txns.filter(t=>t.id!==editId);saveAll();document.getElementById('modal').classList.remove('open');renderHome();showToast('🗑️ 已刪除');
+  try{
+    await supabase.from('transactions').delete().eq('id',editId);
+    await loadUserData();
+    document.getElementById('modal').classList.remove('open');
+    renderHome();
+    showToast('🗑️ 已刪除');
+  }catch(err){showToast('⚠️ 刪除失敗');}
 }
 function exportData(){
   var blob=new Blob([JSON.stringify({txns:txns,settings:settings},null,2)],{type:'application/json'});
@@ -536,16 +562,37 @@ function resetData(){
 }
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2400);}
 
-(function(){
+// 初始化 - 檢查登入狀態
+(async function(){
   var n=new Date(),m=n.getMonth()+1;
   curMonth=n.getFullYear()+'-'+(m<10?'0'+m:''+m);
-  var stored=localStorage.getItem('lastUser');
-  if(stored){
-    document.getElementById('username-input').value=stored;
-    document.getElementById('password-input').focus();
+
+  // 檢查 Supabase 登入狀態
+  const {data:{session},error}=await supabase.auth.getSession();
+  if(session && session.user){
+    curUser=session.user;
+    await loadUserData();
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').classList.add('active');
+    showToast('歡迎回來 🌱');
   }else{
-    document.getElementById('username-input').focus();
+    document.getElementById('login-hint').textContent='第一次登入會建立帳號';
   }
+
+  // 監聽登入狀態變化
+  supabase.auth.onAuthStateChange(async (event,session)=>{
+    if(event==='SIGNED_IN' && session.user){
+      curUser=session.user;
+      await loadUserData();
+      document.getElementById('login-screen').style.display='none';
+      document.getElementById('app').classList.add('active');
+      showToast('✅ 登入成功！');
+    }else if(event==='SIGNED_OUT'){
+      curUser=null;
+      document.getElementById('login-screen').style.display='flex';
+      document.getElementById('app').classList.remove('active');
+    }
+  });
 })();
 </script>
 </body>
