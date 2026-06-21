@@ -394,60 +394,60 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 
 <!-- UNIFIED QUICK INPUT MODAL -->
 <div class="modal-overlay" id="calculator" onclick="if(event.target===this)closeCalculator()">
-  <div class="modal" style="max-height:none;padding:0;">
+  <div class="modal" style="max-height:none;padding:0;width:100%;max-width:100%;margin:0;">
     <!-- 頂部：支出/收入 -->
-    <div style="display:flex;gap:10px;padding:16px;border-bottom:0.5px solid var(--border);">
-      <button onclick="setExpenseType('out')" id="type-out-btn" style="flex:1;padding:10px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-weight:800;cursor:pointer;font-family:var(--font);font-size:14px;">支出</button>
-      <button onclick="setExpenseType('in')" id="type-in-btn" style="flex:1;padding:10px;background:var(--surface2);color:var(--text);border:0.5px solid var(--border2);border-radius:14px;font-weight:800;cursor:pointer;font-family:var(--font);font-size:14px;">收入</button>
+    <div style="display:flex;gap:8px;padding:12px 14px;border-bottom:0.5px solid var(--border);">
+      <button onclick="setExpenseType('out')" id="type-out-btn" style="flex:1;padding:8px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:13px;">支出</button>
+      <button onclick="setExpenseType('in')" id="type-in-btn" style="flex:1;padding:8px;background:var(--surface2);color:var(--text);border:0.5px solid var(--border2);border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:13px;">收入</button>
     </div>
 
     <!-- 分類選擇 -->
-    <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);overflow-x:auto;">
-      <div id="quick-cat-grid" style="display:flex;gap:8px;min-width:100%;"></div>
+    <div style="padding:10px 12px;border-bottom:0.5px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <div id="quick-cat-grid" style="display:flex;gap:6px;min-width:fit-content;"></div>
     </div>
 
     <!-- 金額和備註 -->
-    <div style="padding:14px 16px;border-bottom:0.5px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <span id="quick-cat-emoji" style="font-size:24px;">🍽️</span>
-        <span style="font-size:13px;font-weight:800;color:var(--text);" id="quick-cat-name">餐費</span>
-        <span style="color:var(--text);font-size:18px;font-weight:900;margin-left:auto;">NT$ <span id="quick-amount">0</span></span>
+    <div style="padding:12px 14px;border-bottom:0.5px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span id="quick-cat-emoji" style="font-size:20px;">🍽️</span>
+        <span style="font-size:12px;font-weight:700;color:var(--text);" id="quick-cat-name">餐費</span>
+        <span style="color:var(--text);font-size:16px;font-weight:900;margin-left:auto;">NT$ <span id="quick-amount">0</span></span>
       </div>
-      <input type="text" id="quick-note" placeholder="在此輸入備註" style="width:100%;background:transparent;border:none;padding:0;font-family:var(--font);font-size:13px;color:var(--text);outline:none;">
+      <input type="text" id="quick-note" placeholder="在此輸入備註" style="width:100%;background:transparent;border:none;padding:0;font-family:var(--font);font-size:12px;color:var(--text);outline:none;">
     </div>
 
     <!-- 日期 -->
-    <div style="padding:12px 16px;margin:12px 16px;border-radius:14px;background:var(--surface2);border:0.5px solid var(--border2);display:flex;align-items:center;gap:12px;justify-content:space-between;">
-      <button onclick="changeQuickDate(-1)" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:16px;font-weight:700;">◀</button>
-      <span style="text-align:center;font-weight:700;color:var(--text);font-size:12px;" id="quick-date-display">今日 2026/06/21 星期六</span>
-      <button onclick="changeQuickDate(1)" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:16px;font-weight:700;">▶</button>
+    <div style="padding:10px 12px;margin:10px 12px;border-radius:12px;background:var(--surface2);border:0.5px solid var(--border2);display:flex;align-items:center;gap:10px;justify-content:space-between;">
+      <button onclick="changeQuickDate(-1)" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:14px;font-weight:700;padding:0 4px;">◀</button>
+      <span style="text-align:center;font-weight:700;color:var(--text);font-size:11px;flex:1;" id="quick-date-display">今日 2026/06/21 星期六</span>
+      <button onclick="changeQuickDate(1)" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:14px;font-weight:700;padding:0 4px;">▶</button>
     </div>
 
     <!-- 計算機鍵盤 -->
-    <div style="padding:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-      <button onclick="calcQuick('7')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">7</button>
-      <button onclick="calcQuick('8')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">8</button>
-      <button onclick="calcQuick('9')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">9</button>
-      <button onclick="calcQuick('/')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">÷</button>
+    <div style="padding:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+      <button onclick="calcQuick('7')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">7</button>
+      <button onclick="calcQuick('8')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">8</button>
+      <button onclick="calcQuick('9')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">9</button>
+      <button onclick="calcQuick('/')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">÷</button>
 
-      <button onclick="calcQuick('4')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">4</button>
-      <button onclick="calcQuick('5')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">5</button>
-      <button onclick="calcQuick('6')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">6</button>
-      <button onclick="calcQuick('*')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">×</button>
+      <button onclick="calcQuick('4')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">4</button>
+      <button onclick="calcQuick('5')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">5</button>
+      <button onclick="calcQuick('6')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">6</button>
+      <button onclick="calcQuick('*')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">×</button>
 
-      <button onclick="calcQuick('1')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">1</button>
-      <button onclick="calcQuick('2')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">2</button>
-      <button onclick="calcQuick('3')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">3</button>
-      <button onclick="calcQuick('-')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">−</button>
+      <button onclick="calcQuick('1')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">1</button>
+      <button onclick="calcQuick('2')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">2</button>
+      <button onclick="calcQuick('3')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">3</button>
+      <button onclick="calcQuick('-')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">−</button>
 
-      <button onclick="calcQuick('00')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">00</button>
-      <button onclick="calcQuick('0')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">0</button>
-      <button onclick="calcQuick('.')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">.</button>
-      <button onclick="calcQuick('+')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">+</button>
+      <button onclick="calcQuick('00')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">00</button>
+      <button onclick="calcQuick('0')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">0</button>
+      <button onclick="calcQuick('.')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">.</button>
+      <button onclick="calcQuick('+')" style="background:var(--purple);color:#fff;border:none;border-radius:12px;padding:12px 6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--font);">+</button>
 
-      <button onclick="calcQuick('c')" style="background:rgba(184,168,217,0.15);color:var(--purple);border:0.5px solid rgba(184,168,217,0.25);border-radius:16px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">清除</button>
-      <button onclick="calcQuick('del')" style="background:rgba(184,168,217,0.15);color:var(--purple);border:0.5px solid rgba(184,168,217,0.25);border-radius:16px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">刪除</button>
-      <button onclick="saveQuickTxn()" style="background:var(--mint);color:#fff;border:none;border-radius:16px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);grid-column:span 2;">✓ 完成</button>
+      <button onclick="calcQuick('c')" style="background:rgba(184,168,217,0.15);color:var(--purple);border:0.5px solid rgba(184,168,217,0.25);border-radius:12px;padding:12px 6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);">清除</button>
+      <button onclick="calcQuick('del')" style="background:rgba(184,168,217,0.15);color:var(--purple);border:0.5px solid rgba(184,168,217,0.25);border-radius:12px;padding:12px 6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);">刪除</button>
+      <button onclick="saveQuickTxn()" style="background:var(--mint);color:#fff;border:none;border-radius:12px;padding:12px 6px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);grid-column:span 2;">✓ 完成</button>
     </div>
   </div>
 </div>
@@ -1100,7 +1100,7 @@ function renderQuickCatGrid(){
   var html='';
   for(var i=0;i<CATS.length;i++){
     var c=CATS[i];
-    html+='<button onclick="selectQuickCat(\''+c.id+'\')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border:2px solid transparent;border-radius:14px;background:'+(quickExpense.cat===c.id?'rgba('+parseInt(c.color.slice(1,3),16)+','+parseInt(c.color.slice(3,5),16)+','+parseInt(c.color.slice(5,7),16)+',0.1)':'transparent')+';cursor:pointer;font-family:var(--font);'+(quickExpense.cat===c.id?'border-color:'+c.color+';':'border-color:var(--border);')+'"><span class="material-icons" style="font-size:24px;color:'+c.color+';">'+c.icon+'</span><span style="font-size:10px;font-weight:700;color:var(--text);">'+c.name+'</span></button>';
+    html+='<button onclick="selectQuickCat(\''+c.id+'\')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 6px;border:2px solid transparent;border-radius:12px;background:'+(quickExpense.cat===c.id?'rgba('+parseInt(c.color.slice(1,3),16)+','+parseInt(c.color.slice(3,5),16)+','+parseInt(c.color.slice(5,7),16)+',0.1)':'transparent')+';cursor:pointer;font-family:var(--font);white-space:nowrap;'+(quickExpense.cat===c.id?'border-color:'+c.color+';':'border-color:var(--border);')+'"><span class="material-icons" style="font-size:20px;color:'+c.color+';">'+c.icon+'</span><span style="font-size:9px;font-weight:700;color:var(--text);">'+c.name+'</span></button>';
   }
   document.getElementById('quick-cat-grid').innerHTML=html;
 }
@@ -1142,12 +1142,17 @@ function saveQuickTxn(){
   quickExpense.note=document.getElementById('quick-note').value.trim();
   var uid=curUser?curUser.id:'local';
   var nid=Date.now().toString(36)+Math.random().toString(36).slice(2);
-  var record={id:nid,user_id:uid,amount:quickExpense.amount,category:quickExpense.cat,note:quickExpense.note,date:quickExpense.date};
+  var record={id:nid,user_id:uid,amount:parseFloat(quickExpense.amount),category:quickExpense.cat,note:quickExpense.note,date:quickExpense.date};
   txns.push(record);
   syncToSheets(record);
   saveAll();
   if(curUser&&sbClient){
-    try{sbClient.from('transactions').insert([record]).catch(function(){});}catch(err){}
+    (async function(){
+      try{
+        var res=await sbClient.from('transactions').insert([record]);
+        if(res.error){console.log('Supabase insert error:',res.error);}
+      }catch(err){console.error('Supabase error:',err);showToast('⚠️ 同步到雲端失敗');}
+    })();
   }
   showToast('✅ 已新增');
   closeCalculator();
