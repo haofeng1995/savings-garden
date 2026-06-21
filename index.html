@@ -9,6 +9,7 @@
 <meta name="theme-color" content="#b8a8d9">
 <meta name="description" content="簡單溫暖的個人記帳 App">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTkyIDE5MiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAGIDWHLS0g6Yyi5bmj5aSW5ZyIIC0tPgogIDxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDAiIGZpbGw9IiNmNWYzZjAiLz4KCiAgPCEtLSDpjKLluaMgLS0+CiAgPGNpcmNsZSBjeD0iOTYiIGN5PSIxMTAiIHI9IjcwIiBmaWxsPSIjYjhhOGQ5IiBvcGFjaXR5PSIwLjkiLz4KICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAGIDWHLS0g6Yyi5bmj5aSW5ZyIIC0tPgogIDxkZWZzPgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJjb2luR3JhZCIgY3g9IjMwJSIgY3k9IjMwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNkNGM1ZTg7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2I4YThkOTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InRyZWVHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiM2ZGI4YTg7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzVhOWI4ZTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgoKICAgPCEtLSDlupXlsaTokYnlrZCAKLS0+CiAgPCEtLSDluY7lsaTokYnlrZCAKLS0+CiAgPCEtLSDmuK3lsaTokYnlrZCAtLT4KICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAKICAGIDWHLS0g6YKK5qGGIC0tPgogIDwhLS0guKDlsaTokYnlrZCAKLS0+CiAgPC9zdmc+Cg==">
 <title>省錢花園</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -388,7 +389,67 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
     <button class="nav-item" onclick="showScreen('garden',this)"><span class="material-icons nav-icon">eco</span><span>花園</span></button>
     <button class="nav-item" onclick="showScreen('settings',this)"><span class="material-icons nav-icon">settings</span><span>設定</span></button>
   </div>
-  <button id="fab" onclick="openModal()"><span class="material-icons" style="font-size:30px;line-height:1;">add</span></button>
+  <button id="fab" onclick="openCalculator()"><span class="material-icons" style="font-size:30px;line-height:1;">add</span></button>
+</div>
+
+<!-- UNIFIED QUICK INPUT MODAL -->
+<div class="modal-overlay" id="calculator" onclick="if(event.target===this)closeCalculator()">
+  <div class="modal" style="max-height:none;padding:0;max-width:100%;border-radius:28px 28px 0 0;">
+    <!-- 頂部：支出/收入 -->
+    <div style="display:flex;gap:8px;padding:12px 16px;border-bottom:0.5px solid var(--border);">
+      <button onclick="setExpenseType('out')" id="type-out-btn" style="flex:1;padding:8px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);">支出</button>
+      <button onclick="setExpenseType('in')" id="type-in-btn" style="flex:1;padding:8px;background:var(--surface2);color:var(--text);border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);">收入</button>
+    </div>
+
+    <!-- 分類選擇 -->
+    <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);overflow-x:auto;">
+      <div id="quick-cat-grid" style="display:flex;gap:8px;min-width:100%;"></div>
+    </div>
+
+    <!-- 金額和備註 -->
+    <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span id="quick-cat-emoji" style="font-size:24px;">🍽️</span>
+        <span style="font-size:14px;font-weight:700;color:var(--text);" id="quick-cat-name">餐費</span>
+        <span style="color:var(--text);font-size:18px;font-weight:900;">NT$ <span id="quick-amount">0</span></span>
+      </div>
+      <input type="text" id="quick-note" placeholder="在此輸入備註" style="width:100%;background:transparent;border:none;padding:0;font-family:var(--font);font-size:14px;color:var(--text);outline:none;">
+    </div>
+
+    <!-- 日期 -->
+    <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px;background:#fbbf24;border-radius:12px;margin:0 16px;justify-content:space-between;">
+      <button onclick="changeQuickDate(-1)" style="background:none;border:none;color:#000;cursor:pointer;font-size:18px;">◀</button>
+      <span style="text-align:center;font-weight:700;color:#000;" id="quick-date-display">今日 2026/06/21 星期六</span>
+      <button onclick="changeQuickDate(1)" style="background:none;border:none;color:#000;cursor:pointer;font-size:18px;">▶</button>
+    </div>
+
+    <!-- 計算機鍵盤 -->
+    <div style="padding:16px;background:#fbbf24;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
+      <button onclick="calcQuick('7')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">7</button>
+      <button onclick="calcQuick('8')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">8</button>
+      <button onclick="calcQuick('9')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">9</button>
+      <button onclick="calcQuick('/')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">÷</button>
+      <button onclick="calcQuick('c')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">AC</button>
+
+      <button onclick="calcQuick('4')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">4</button>
+      <button onclick="calcQuick('5')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">5</button>
+      <button onclick="calcQuick('6')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">6</button>
+      <button onclick="calcQuick('*')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">×</button>
+      <button onclick="calcQuick('del')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">⌫</button>
+
+      <button onclick="calcQuick('1')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">1</button>
+      <button onclick="calcQuick('2')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">2</button>
+      <button onclick="calcQuick('3')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">3</button>
+      <button onclick="calcQuick('-')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:20px;font-weight:700;cursor:pointer;font-family:var(--font);">−</button>
+      <div style="grid-column:span 5;"></div>
+
+      <button onclick="calcQuick('00')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">00</button>
+      <button onclick="calcQuick('0')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">0</button>
+      <button onclick="calcQuick('.')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">.</button>
+      <button onclick="calcQuick('+')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:20px;font-weight:700;cursor:pointer;font-family:var(--font);">+</button>
+      <button onclick="saveQuickTxn()" style="background:#f87171;color:#fff;border:none;border-radius:50%;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">OK</button>
+    </div>
+  </div>
 </div>
 
 <!-- MODAL -->
@@ -755,8 +816,8 @@ async function loadUserData(){
         var uid=curUser.id;
         var txnPayload=txns.map(function(t){return Object.assign({},t,{user_id:uid});});
         await sbClient.from('transactions').upsert(txnPayload,{onConflict:'id'});
-        var settingsPayload={user_id:uid,total_budget:settings.totalBudget,cat_budgets:settings.catBudgets,cats:settings.cats||null,presets:settings.presets||null,carry_over:settings.carryOver||0,last_settled_week:settings.lastSettledWeek||null,recurring_txns:settings.recurringTxns||null,monthly_goal:settings.monthlyGoal||0,updated_at:new Date().toISOString()};
-        await sbClient.from('user_settings').upsert(settingsPayload,{onConflict:'user_id'});
+        var settingsPayload={user_id:uid,total_budget:settings.totalBudget,cat_budgets:settings.catBudgets,cats:settings.cats||null,presets:settings.presets||null,carry_over:settings.carryOver||0,last_settled_week:settings.lastSettledWeek||null,updated_at:new Date().toISOString()};
+        await sbClient.from('user_settings').upsert(settingsPayload);
       }catch(e){console.log('auto-backup silent');}
     },1000);
   }catch(err){console.error(err);}
@@ -1015,6 +1076,82 @@ function deletePreset(catId,idx){
   saveAll();renderPresets(catId);
 }
 var confirmPending=false;
+var quickExpense={type:'out',cat:'food',amount:0,note:'',date:new Date().toISOString().split('T')[0],expr:''};
+function openCalculator(){
+  quickExpense={type:'out',cat:'food',amount:0,note:'',date:new Date().toISOString().split('T')[0],expr:''};
+  setExpenseType('out');
+  renderQuickCatGrid();
+  updateQuickDateDisplay();
+  document.getElementById('quick-note').value='';
+  document.getElementById('calculator').classList.add('open');
+}
+function closeCalculator(){
+  document.getElementById('calculator').classList.remove('open');
+}
+function setExpenseType(type){
+  quickExpense.type=type;
+  document.getElementById('type-out-btn').style.background=type==='out'?'var(--purple)':'var(--surface2)';
+  document.getElementById('type-out-btn').style.color=type==='out'?'#fff':'var(--text)';
+  document.getElementById('type-in-btn').style.background=type==='in'?'var(--purple)':'var(--surface2)';
+  document.getElementById('type-in-btn').style.color=type==='in'?'#fff':'var(--text)';
+}
+function renderQuickCatGrid(){
+  var html='';
+  for(var i=0;i<CATS.length;i++){
+    var c=CATS[i];
+    html+='<button onclick="selectQuickCat(\''+c.id+'\')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px;border:2px solid transparent;border-radius:12px;background:transparent;cursor:pointer;font-family:var(--font);'+(quickExpense.cat===c.id?'border-color:'+c.color+';':'')+'"><span style="font-size:20px;">'+c.emoji+'</span><span style="font-size:10px;font-weight:700;color:var(--text);">'+c.name+'</span></button>';
+  }
+  document.getElementById('quick-cat-grid').innerHTML=html;
+}
+function selectQuickCat(catId){
+  quickExpense.cat=catId;
+  var cat=CAT_MAP[catId];
+  if(cat){
+    document.getElementById('quick-cat-emoji').textContent=cat.emoji;
+    document.getElementById('quick-cat-name').textContent=cat.name;
+  }
+  renderQuickCatGrid();
+}
+function calcQuick(key){
+  if(key==='c'){quickExpense.expr='';quickExpense.amount=0;}
+  else if(key==='del'){quickExpense.expr=quickExpense.expr.slice(0,-1);}
+  else if(key==='='){quickExpense.amount=eval(quickExpense.expr)||0;}
+  else{quickExpense.expr+=(key==='/'?'/':(key==='*'?'*':(key==='-'?'-':(key==='+'?'+':key))));}
+  var display=quickExpense.expr||'0';
+  document.getElementById('quick-amount').textContent=display.replace(/\*/g,'×').replace(/\//g,'÷');
+}
+function changeQuickDate(days){
+  var d=new Date(quickExpense.date);
+  d.setDate(d.getDate()+days);
+  quickExpense.date=d.toISOString().split('T')[0];
+  updateQuickDateDisplay();
+}
+function updateQuickDateDisplay(){
+  var d=new Date(quickExpense.date+'T00:00:00');
+  var today=new Date();
+  today.setHours(0,0,0,0);
+  var isToday=d.getTime()===today.getTime();
+  var dayNames=['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+  var ymd=d.getFullYear()+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getDate().toString().padStart(2,'0');
+  document.getElementById('quick-date-display').textContent=(isToday?'今日 ':'')+ ymd+' '+dayNames[d.getDay()];
+}
+function saveQuickTxn(){
+  try{quickExpense.amount=eval(quickExpense.expr)||0;}catch(e){quickExpense.amount=0;}
+  if(!quickExpense.amount||quickExpense.amount<=0){showToast('⚠️ 請輸入金額');return;}
+  quickExpense.note=document.getElementById('quick-note').value.trim();
+  var uid=curUser?curUser.id:'local';
+  var nid=Date.now().toString(36)+Math.random().toString(36).slice(2);
+  var record={id:nid,user_id:uid,amount:quickExpense.amount,category:quickExpense.cat,note:quickExpense.note,date:quickExpense.date};
+  txns.push(record);
+  syncToSheets(record);
+  saveAll();
+  if(curUser&&sbClient){
+    try{sbClient.from('transactions').insert([record]).catch(function(){});}catch(err){}
+  }
+  showToast('✅ 已新增');
+  closeCalculator();
+  renderHome();
+}
 var QUICK_TAGS={food:['咖啡','便當','麥當勞','全聯','自助餐','超商'],shop:['超市','水電費','加油','藥局','衣服'],transit:['停車','加油','公車','計程車'],fun:['電影','KTV','聚餐','買書'],health:['掛號','藥局','健身'],other:['雜支','禮物','維修']};
 function renderQuickTags(catId){
   var tags=QUICK_TAGS[catId]||[];var html='';
@@ -1047,16 +1184,30 @@ function openEditModal(id){
 function overlayClose(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
 function syncToSheets(record){
   var url=settings.sheetsUrl;
-  if(!url){showToast('⚠️ 未設定試算表網址');return;}
+  if(!url){
+    showToast('⚠️ 未設定試算表網址，請在設定中配置');
+    console.log('Sheet URL not configured');
+    return;
+  }
   var catName=(CAT_MAP[record.category]&&CAT_MAP[record.category].name)||record.category;
+  console.log('Syncing to sheets:',{url:url.substring(0,50),email:curUser?curUser.email:'local'});
   fetch('/api/sync-to-sheets',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({sheetsUrl:url,date:record.date,catName:catName,note:record.note||'',amount:record.amount,userEmail:curUser?curUser.email:'未知'})
   }).then(function(r){return r.json();}).then(function(d){
-    if(d&&d.ok){showToast('✅ 已同步到試算表');}
-    else{showToast('❌ 同步失敗: '+(d&&d.debug?d.debug.substring(0,30):'unknown'));}
-  }).catch(function(e){showToast('❌ 網路錯誤: '+e.message);});
+    if(d&&d.ok){
+      showToast('✅ 已同步到試算表');
+      console.log('Sheet sync OK');
+    }
+    else{
+      showToast('❌ 同步失敗: '+(d&&d.debug?d.debug.substring(0,50):'unknown'));
+      console.log('Sheet sync failed:',d);
+    }
+  }).catch(function(e){
+    showToast('❌ 網路錯誤: '+e.message);
+    console.log('Sheet sync error:',e);
+  });
 }
 
 async function saveTxn(){

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "savings-garden",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-c", "import os, http.server, socketserver; PORT = int(os.environ.get('PORT', 3000)); Handler = http.server.SimpleHTTPRequestHandler; httpd = socketserver.TCPServer(('', PORT), Handler); print(f'Server running on port {PORT}'); httpd.serve_forever()"],
+      "port": 0,
+      "autoPort": true
+    }
+  ]
+}
