@@ -394,11 +394,11 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 
 <!-- UNIFIED QUICK INPUT MODAL -->
 <div class="modal-overlay" id="calculator" onclick="if(event.target===this)closeCalculator()">
-  <div class="modal" style="max-height:none;padding:0;max-width:100%;border-radius:28px 28px 0 0;">
+  <div class="modal" style="max-height:none;padding:0;">
     <!-- 頂部：支出/收入 -->
-    <div style="display:flex;gap:8px;padding:12px 16px;border-bottom:0.5px solid var(--border);">
-      <button onclick="setExpenseType('out')" id="type-out-btn" style="flex:1;padding:8px;background:var(--purple);color:#fff;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);">支出</button>
-      <button onclick="setExpenseType('in')" id="type-in-btn" style="flex:1;padding:8px;background:var(--surface2);color:var(--text);border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:var(--font);">收入</button>
+    <div style="display:flex;gap:10px;padding:16px;border-bottom:0.5px solid var(--border);">
+      <button onclick="setExpenseType('out')" id="type-out-btn" style="flex:1;padding:10px;background:var(--purple);color:#fff;border:none;border-radius:14px;font-weight:800;cursor:pointer;font-family:var(--font);font-size:14px;">支出</button>
+      <button onclick="setExpenseType('in')" id="type-in-btn" style="flex:1;padding:10px;background:var(--surface2);color:var(--text);border:0.5px solid var(--border2);border-radius:14px;font-weight:800;cursor:pointer;font-family:var(--font);font-size:14px;">收入</button>
     </div>
 
     <!-- 分類選擇 -->
@@ -407,47 +407,47 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
     </div>
 
     <!-- 金額和備註 -->
-    <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+    <div style="padding:14px 16px;border-bottom:0.5px solid var(--border);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
         <span id="quick-cat-emoji" style="font-size:24px;">🍽️</span>
-        <span style="font-size:14px;font-weight:700;color:var(--text);" id="quick-cat-name">餐費</span>
-        <span style="color:var(--text);font-size:18px;font-weight:900;">NT$ <span id="quick-amount">0</span></span>
+        <span style="font-size:13px;font-weight:800;color:var(--text);" id="quick-cat-name">餐費</span>
+        <span style="color:var(--text);font-size:18px;font-weight:900;margin-left:auto;">NT$ <span id="quick-amount">0</span></span>
       </div>
-      <input type="text" id="quick-note" placeholder="在此輸入備註" style="width:100%;background:transparent;border:none;padding:0;font-family:var(--font);font-size:14px;color:var(--text);outline:none;">
+      <input type="text" id="quick-note" placeholder="在此輸入備註" style="width:100%;background:transparent;border:none;padding:0;font-family:var(--font);font-size:13px;color:var(--text);outline:none;">
     </div>
 
     <!-- 日期 -->
-    <div style="padding:12px 16px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:8px;background:#fbbf24;border-radius:12px;margin:0 16px;justify-content:space-between;">
-      <button onclick="changeQuickDate(-1)" style="background:none;border:none;color:#000;cursor:pointer;font-size:18px;">◀</button>
-      <span style="text-align:center;font-weight:700;color:#000;" id="quick-date-display">今日 2026/06/21 星期六</span>
-      <button onclick="changeQuickDate(1)" style="background:none;border:none;color:#000;cursor:pointer;font-size:18px;">▶</button>
+    <div style="padding:12px 16px;margin:12px 16px;border-radius:14px;background:var(--surface2);border:0.5px solid var(--border2);display:flex;align-items:center;gap:12px;justify-content:space-between;">
+      <button onclick="changeQuickDate(-1)" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:16px;font-weight:700;">◀</button>
+      <span style="text-align:center;font-weight:700;color:var(--text);font-size:12px;" id="quick-date-display">今日 2026/06/21 星期六</span>
+      <button onclick="changeQuickDate(1)" style="background:none;border:none;color:var(--text);cursor:pointer;font-size:16px;font-weight:700;">▶</button>
     </div>
 
     <!-- 計算機鍵盤 -->
-    <div style="padding:16px;background:#fbbf24;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;">
-      <button onclick="calcQuick('7')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">7</button>
-      <button onclick="calcQuick('8')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">8</button>
-      <button onclick="calcQuick('9')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">9</button>
-      <button onclick="calcQuick('/')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">÷</button>
-      <button onclick="calcQuick('c')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">AC</button>
+    <div style="padding:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+      <button onclick="calcQuick('7')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">7</button>
+      <button onclick="calcQuick('8')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">8</button>
+      <button onclick="calcQuick('9')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">9</button>
+      <button onclick="calcQuick('/')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">÷</button>
 
-      <button onclick="calcQuick('4')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">4</button>
-      <button onclick="calcQuick('5')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">5</button>
-      <button onclick="calcQuick('6')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">6</button>
-      <button onclick="calcQuick('*')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">×</button>
-      <button onclick="calcQuick('del')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">⌫</button>
+      <button onclick="calcQuick('4')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">4</button>
+      <button onclick="calcQuick('5')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">5</button>
+      <button onclick="calcQuick('6')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">6</button>
+      <button onclick="calcQuick('*')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">×</button>
 
-      <button onclick="calcQuick('1')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">1</button>
-      <button onclick="calcQuick('2')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">2</button>
-      <button onclick="calcQuick('3')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">3</button>
-      <button onclick="calcQuick('-')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:20px;font-weight:700;cursor:pointer;font-family:var(--font);">−</button>
-      <div style="grid-column:span 5;"></div>
+      <button onclick="calcQuick('1')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">1</button>
+      <button onclick="calcQuick('2')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">2</button>
+      <button onclick="calcQuick('3')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">3</button>
+      <button onclick="calcQuick('-')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">−</button>
 
-      <button onclick="calcQuick('00')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">00</button>
-      <button onclick="calcQuick('0')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">0</button>
-      <button onclick="calcQuick('.')" style="background:#fff;border:2px solid #fff;border-radius:50%;padding:12px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">.</button>
-      <button onclick="calcQuick('+')" style="background:#38bdf8;color:#fff;border:none;border-radius:50%;padding:12px;font-size:20px;font-weight:700;cursor:pointer;font-family:var(--font);">+</button>
-      <button onclick="saveQuickTxn()" style="background:#f87171;color:#fff;border:none;border-radius:50%;padding:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">OK</button>
+      <button onclick="calcQuick('00')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">00</button>
+      <button onclick="calcQuick('0')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">0</button>
+      <button onclick="calcQuick('.')" style="background:var(--surface2);border:0.5px solid var(--border2);color:var(--text);border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">.</button>
+      <button onclick="calcQuick('+')" style="background:var(--purple);color:#fff;border:none;border-radius:16px;padding:14px;font-size:18px;font-weight:700;cursor:pointer;font-family:var(--font);">+</button>
+
+      <button onclick="calcQuick('c')" style="background:rgba(184,168,217,0.15);color:var(--purple);border:0.5px solid rgba(184,168,217,0.25);border-radius:16px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">清除</button>
+      <button onclick="calcQuick('del')" style="background:rgba(184,168,217,0.15);color:var(--purple);border:0.5px solid rgba(184,168,217,0.25);border-radius:16px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);">刪除</button>
+      <button onclick="saveQuickTxn()" style="background:var(--mint);color:#fff;border:none;border-radius:16px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);grid-column:span 2;">✓ 完成</button>
     </div>
   </div>
 </div>
@@ -506,19 +506,20 @@ const SUPABASE_ANON_KEY='sb_publishable_xBLJG1_en-A_7KokEr5WAg_uX-Aq0lB';
 var sbClient=null;
 
 var DEFAULT_CATS=[
-  {id:'food',name:'餐費',icon:'restaurant',color:'#f97316'},
-  {id:'transit',name:'交通',icon:'directions_transit',color:'#38bdf8'},
-  {id:'shop',name:'購物',icon:'shopping_cart',color:'#ec4899'},
-  {id:'fun',name:'娛樂',icon:'sports_esports',color:'#8b5cf6'},
-  {id:'health',name:'醫療',icon:'health_and_safety',color:'#10b981'},
-  {id:'other',name:'其他',icon:'category',color:'#94a3b8'}
+  {id:'food',name:'餐費',icon:'restaurant',color:'#f97316',emoji:'🍽️'},
+  {id:'transit',name:'交通',icon:'directions_transit',color:'#38bdf8',emoji:'🚗'},
+  {id:'shop',name:'購物',icon:'shopping_cart',color:'#ec4899',emoji:'🛒'},
+  {id:'fun',name:'娛樂',icon:'sports_esports',color:'#8b5cf6',emoji:'🎮'},
+  {id:'health',name:'醫療',icon:'health_and_safety',color:'#10b981',emoji:'⚕️'},
+  {id:'other',name:'其他',icon:'category',color:'#94a3b8',emoji:'📦'}
 ];
 var CATS=DEFAULT_CATS.map(function(c){return {...c};});
 var CAT_MAP={};
+var EMOJI_MAP={'restaurant':'🍽️','directions_transit':'🚗','shopping_cart':'🛒','sports_esports':'🎮','health_and_safety':'⚕️','category':'📦'};
 function rebuildCats(){
   var src=(settings&&settings.cats&&settings.cats.length)?settings.cats:DEFAULT_CATS.map(function(c){return {...c};});
   CATS=src;
-  CAT_MAP={};for(var i=0;i<CATS.length;i++){CATS[i].emoji=CATS[i].icon;CAT_MAP[CATS[i].id]=CATS[i];}
+  CAT_MAP={};for(var i=0;i<CATS.length;i++){if(!CATS[i].emoji){CATS[i].emoji=EMOJI_MAP[CATS[i].icon]||'📦';}CAT_MAP[CATS[i].id]=CATS[i];}
 }
 
 var CAT_COLORS=['#f97316','#38bdf8','#ec4899','#8b5cf6','#10b981','#fbbf24','#f87171','#94a3b8','#06b6d4','#84cc16'];
