@@ -1,6 +1,6 @@
 {
-  "name": "省錢花園 - 個人記帳",
-  "short_name": "省錢花園",
+  "name": "財富花園 - 個人記帳",
+  "short_name": "財富花園",
   "description": "簡單溫暖的個人記帳 App，幫助你管理日常消費",
   "start_url": "/index.html",
   "scope": "/",
@@ -24,7 +24,7 @@
   ],
   "screenshots": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f5f3f0' width='540' height='720'/><text x='270' y='360' font-size='120' text-anchor='middle' fill='%23b8a8d9' font-family='system-ui'>省錢花園</text></svg>",
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23f5f3f0' width='540' height='720'/><text x='270' y='360' font-size='120' text-anchor='middle' fill='%23b8a8d9' font-family='system-ui'>財富花園</text></svg>",
       "sizes": "540x720",
       "type": "image/svg+xml",
       "form_factor": "narrow"
