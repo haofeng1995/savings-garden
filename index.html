@@ -274,6 +274,7 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
       <div id="b-compare" style="font-size:11px;color:var(--subtle);margin-top:6px;text-align:right;"></div>
     </div>
     <div id="week-card-wrap"></div>
+    <div id="cat-budget-wrap" style="margin:0 16px 14px;"></div>
     <div class="section">
       <div class="sec-title">最近記錄</div>
       <div class="txn-list" id="txn-list"><div class="empty-state"><div class="empty-icon">🌸</div><p>還沒有記錄</p></div></div>
@@ -408,11 +409,12 @@ html.dark-mode .week-card{box-shadow:0 2px 8px rgba(0,0,0,0.2);}
 
     <!-- 金額和備註 -->
     <div style="padding:12px 14px;border-bottom:0.5px solid var(--border);">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
         <span id="quick-cat-emoji" style="font-size:20px;">🍽️</span>
         <span style="font-size:12px;font-weight:700;color:var(--text);" id="quick-cat-name">餐費</span>
         <span style="color:var(--text);font-size:16px;font-weight:900;margin-left:auto;">NT$ <span id="quick-amount">0</span></span>
       </div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:8px;" id="quick-cat-budget">剩餘預算: NT$ 0</div>
       <input type="text" id="quick-note" placeholder="在此輸入備註" style="width:100%;background:transparent;border:none;padding:0;font-family:var(--font);font-size:12px;color:var(--text);outline:none;">
     </div>
 
@@ -901,6 +903,25 @@ function renderHome(){
   if(after) after.innerHTML=wHtml;
   else document.getElementById('week-card-wrap').innerHTML+=wHtml;
 
+  // 分類預算卡片
+  var cbHtml='';
+  for(var ci=0;ci<CATS.length;ci++){
+    var c=CATS[ci];
+    var cBudget=settings.catBudgets[c.id]||0;
+    if(cBudget>0){
+      var cSpent=catSpent(ym,c.id);
+      var cRemain=cBudget-cSpent;
+      var cPct=Math.min(100,Math.round(cSpent/cBudget*100));
+      var cColor=cPct>=100?'var(--red)':cPct>=80?'var(--amber)':'var(--mint)';
+      cbHtml+='<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--surface);border-radius:12px;margin-bottom:8px;border:0.5px solid var(--border);"><span class="material-icons" style="color:'+c.color+';font-size:20px;">'+c.icon+'</span><div style="flex:1;"><div style="font-size:11px;font-weight:700;color:var(--text);">'+c.name+'</div><div style="font-size:10px;color:var(--muted);">NT$ '+fmt(cSpent)+' / '+fmt(cBudget)+'</div></div><div style="text-align:right;font-size:11px;font-weight:700;"><div style="color:'+cColor+';">'+cPct+'%</div><div style="color:'+(cRemain>=0?'var(--mint)':'var(--red)')+';">'+fmt(Math.max(0,cRemain))+'</div></div></div>';
+    }
+  }
+  if(cbHtml){
+    document.getElementById('cat-budget-wrap').innerHTML='<div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;">分類預算</div>'+cbHtml;
+  }else{
+    document.getElementById('cat-budget-wrap').innerHTML='';
+  }
+
   var mt=monthTxns(ym);mt.sort(function(a,b){return a.date<b.date?1:-1;});
   var list=document.getElementById('txn-list');
   if(!mt.length){list.innerHTML='<div class="empty-state"><div class="empty-icon">🌸</div><p>還沒有記錄</p></div>';return;}
@@ -1110,6 +1131,10 @@ function selectQuickCat(catId){
   if(cat){
     document.getElementById('quick-cat-emoji').textContent=cat.emoji;
     document.getElementById('quick-cat-name').textContent=cat.name;
+    var catBudget=settings.catBudgets[catId]||0;
+    var spent=catSpent(curMonth,catId);
+    var remain=catBudget-spent;
+    document.getElementById('quick-cat-budget').textContent='剩餘預算: NT$ '+fmt(Math.max(0,remain));
   }
   renderQuickCatGrid();
 }
